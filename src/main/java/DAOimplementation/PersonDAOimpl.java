@@ -6,10 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 
 import DAO.PersonDAO;
 import model.Person;
@@ -17,22 +14,22 @@ import model.Person;
 
 public class PersonDAOimpl implements PersonDAO {
 
-    public String jdbcURL = "jdbc:mysql://localhost:3306/quiz-app";
+    public String jdbcURL = "jdbc:mysql://localhost:3306/JavaQuiz";
     public String jdbcUsername = "ismail";
     public String jdbcPassword = "just";
 
     private static final String  INSERT_PERSON_SQL = "INSERT INTO Persons" +
-        " (idPerson, firstName, lastName, email, password) VALUES" + 
+        " (id, firstName, lastName, email, password) VALUES" + 
         "(?, ?, ?, ?, ?);"
     ;
 
-    private static final String SELECT_PERSON_BY_ID_SQL = "SELECT * from Persons where idPerson = ? ;";
+    private static final String SELECT_PERSON_BY_ID_SQL = "SELECT * from Persons where id = ? ;";
 
     private static final String SELECT_PERSONS_SQL = "SELECT * from Persons";
 
-    private static final String UPDATE_PERSON_SQL = "UPDATE Persons set firstName = ?, lastName = ?, email = ?, password =? WHERE idPerson = ?;";
+    private static final String UPDATE_PERSON_SQL = "UPDATE Persons set firstName = ?, lastName = ?, email = ?, password =? WHERE id = ?;";
 
-    private static final String DELETE_PERSON_SQL = "DELETE FROM Persons WHERE idPerson = ?;";
+    private static final String DELETE_PERSON_SQL = "DELETE FROM Persons WHERE id = ?;";
 
     protected Connection getConnection(){
         Connection connection = null;
@@ -63,7 +60,7 @@ public class PersonDAOimpl implements PersonDAO {
             preparedStatement.setString(2, person.getFirstName());
             preparedStatement.setString(3, person.getLastName());
             preparedStatement.setString(4, person.getEmail());
-            preparedStatement.setString(4, person.getPassword());
+            preparedStatement.setString(5, person.getPassword());
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -109,7 +106,7 @@ public class PersonDAOimpl implements PersonDAO {
             ResultSet rs = preparedStatement.executeQuery();
 
             while (rs.next()) {
-                int id = rs.getInt("idPerson");
+                int id = rs.getInt("id");
                 String firstName =  rs.getString("firstName");
                 String lastName = rs.getString("lastName");
                 String email = rs.getString("email");
