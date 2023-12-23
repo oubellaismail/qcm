@@ -32,12 +32,9 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
+<?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.PasswordField?>
-<?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
@@ -46,72 +43,54 @@
 
 <VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.qcmpro.RegisterController">
   <children>
-    <MenuBar VBox.vgrow="NEVER">
-      <menus>
-        <Menu mnemonicParsing="false" text="File">
-          <items>
-            <MenuItem mnemonicParsing="false" text="New" />
-            <MenuItem mnemonicParsing="false" text="Open…" />
-            <Menu mnemonicParsing="false" text="Open Recent" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Close" />
-            <MenuItem mnemonicParsing="false" text="Save" />
-            <MenuItem mnemonicParsing="false" text="Save As…" />
-            <MenuItem mnemonicParsing="false" text="Revert" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Preferences…" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Quit" />
-          </items>
-        </Menu>
-        <Menu mnemonicParsing="false" text="Edit">
-          <items>
-            <MenuItem mnemonicParsing="false" text="Undo" />
-            <MenuItem mnemonicParsing="false" text="Redo" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Cut" />
-            <MenuItem mnemonicParsing="false" text="Copy" />
-            <MenuItem mnemonicParsing="false" text="Paste" />
-            <MenuItem mnemonicParsing="false" text="Delete" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Select All" />
-            <MenuItem mnemonicParsing="false" text="Unselect All" />
-          </items>
-        </Menu>
-        <Menu mnemonicParsing="false" text="Help">
-          <items>
-            <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
-          </items>
-        </Menu>
-      </menus>
-    </MenuBar>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <children>
-            <TextField fx:id="firstNameField" layoutX="231.0" layoutY="74.0" prefHeight="26.0" prefWidth="297.0" promptText="First name" />
-            <TextField fx:id="lastNameField" layoutX="231.0" layoutY="120.0" prefHeight="26.0" prefWidth="298.0" promptText="Last name" />
-            <TextField fx:id="emailField" layoutX="231.0" layoutY="174.0" prefHeight="26.0" prefWidth="298.0" promptText="Email" />
-            <Text layoutX="146.0" layoutY="92.0" strokeType="OUTSIDE" strokeWidth="0.0" text="First name">
+            <TextField fx:id="firstNameField" layoutX="230.0" layoutY="54.0" prefHeight="26.0" prefWidth="297.0" promptText="First name">
+               <font>
+                  <Font size="14.0" />
+               </font></TextField>
+            <TextField fx:id="lastNameField" layoutX="229.0" layoutY="100.0" prefHeight="26.0" prefWidth="298.0" promptText="Last name">
+               <font>
+                  <Font size="14.0" />
+               </font></TextField>
+            <TextField fx:id="emailField" layoutX="230.0" layoutY="157.0" prefHeight="26.0" prefWidth="298.0" promptText="Email">
+               <font>
+                  <Font size="14.0" />
+               </font></TextField>
+            <Text layoutX="125.0" layoutY="74.0" strokeType="OUTSIDE" strokeWidth="0.0" text="First name">
                <font>
                   <Font size="14.0" />
                </font>
             </Text>
-            <Text layoutX="147.0" layoutY="138.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Last name">
+            <Text layoutX="127.0" layoutY="120.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Last name">
                <font>
                   <Font size="14.0" />
                </font>
             </Text>
-            <Text layoutX="161.0" layoutY="192.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email">
+            <Text layoutX="141.0" layoutY="177.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email">
                <font>
                   <Font size="14.0" />
                </font>
             </Text>
-            <Text layoutX="146.0" layoutY="249.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password">
+            <Text layoutX="129.0" layoutY="224.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password">
                <font>
                   <Font size="14.0" />
                </font>
             </Text>
-            <Button fx:id="registerButton" layoutX="477.0" layoutY="280.0" mnemonicParsing="false" onAction="#setRegisterButtonActionHandler" text="Register" />
-            <PasswordField fx:id="passwordField" layoutX="231.0" layoutY="231.0" prefHeight="26.0" prefWidth="298.0" promptText="Password" />
+            <Button fx:id="registerButton" layoutX="346.0" layoutY="257.0" mnemonicParsing="false" onAction="#setRegisterButtonActionHandler" prefHeight="36.0" prefWidth="86.0" text="Register">
+               <font>
+                  <Font size="14.0" />
+               </font></Button>
+            <PasswordField fx:id="passwordField" layoutX="230.0" layoutY="204.0" prefHeight="26.0" prefWidth="298.0" promptText="Password">
+               <font>
+                  <Font size="14.0" />
+               </font></PasswordField>
+            <Button fx:id="loginButton" layoutX="441.0" layoutY="257.0" mnemonicParsing="false" onAction="#setLoginButtonActionHandler" prefHeight="36.0" prefWidth="86.0" text="Login">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+            <Accordion layoutX="73.0" layoutY="256.0" />
       </children>
     </AnchorPane>
   </children>

@@ -1,9 +1,10 @@
 module controller.qcmpro {
-    requires java.sql;
     requires javafx.controls;
     requires javafx.fxml;
+    requires java.sql;
 
 
     opens controller.qcmpro to javafx.fxml;
     exports controller.qcmpro;
+
 }

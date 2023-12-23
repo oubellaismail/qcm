@@ -1,8 +1,14 @@
 package controller.qcmpro;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class LoginController {
 
@@ -41,6 +47,20 @@ public class LoginController {
 
     @FXML
     private void handleRegisterButtonAction() {
-        System.out.println("Register Button Clicked");
+        redirectToRegisterPage();
+    }
+
+    private void redirectToRegisterPage() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("register-view.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) registerButton.getScene().getWindow();
+            stage.setScene(scene);
+            stage.setTitle("Registration Form");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
