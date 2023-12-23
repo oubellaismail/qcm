@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 
 import DAO.PersonDAO;
 import model.Person;
@@ -56,7 +58,7 @@ public class PersonDAOimpl implements PersonDAO {
     @Override
     public void insertPerson(Person person){
         try (Connection connection =getConnection();){
-            PreparedStatement preparedStatement = connection.preparedStatement(INSERT_PERSON_SQL);
+            PreparedStatement preparedStatement = connection.prepareStatement(INSERT_PERSON_SQL);
             preparedStatement.setInt(1, person.getId());
             preparedStatement.setString(2, person.getFirstName());
             preparedStatement.setString(3, person.getLastName());
@@ -75,7 +77,7 @@ public class PersonDAOimpl implements PersonDAO {
     public Person findPerson(int id){
         Person person = null;
         try (Connection connection = getConnection();) {
-            PreparedStatement preparedStatement = connection.preparedStatement(SELECT_PERSON_BY_ID_SQL);
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_PERSON_BY_ID_SQL);
             preparedStatement.setInt(1, id);
             ResultSet rs = preparedStatement.executeQuery();
 
@@ -129,8 +131,8 @@ public class PersonDAOimpl implements PersonDAO {
     @Override
     public void updatePerson(Person person){
         try (Connection connection = getConnection(); ) {
-            PreparedStatement statement = connection.preparedStatement(UPDATE_PERSON_SQL);
-            statement.setString(1, person.getId());
+            PreparedStatement statement = connection.prepareStatement(UPDATE_PERSON_SQL);
+            statement.setInt(1, person.getId());
             statement.setString(2, person.getFirstName());
             statement.setString(3, person.getLastName());
             statement.setString(4, person.getEmail());
