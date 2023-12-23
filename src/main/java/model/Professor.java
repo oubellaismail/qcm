@@ -1,14 +1,17 @@
 package model;
 
-import java.util.Date;
-
 public class Professor extends Person{
+    private int idProfessor;
 
-
-    public Professor(int idProfessor, String firstName, String lastName, String email, String password) {
-        super(idProfessor, firstName, lastName, email, password);
+    public Professor(int id, String firstName, String lastName, String email, String password) {
+        super(id, firstName, lastName, email, password);
+    }
+    
+    public int getIdProfessor() {
+        return this.idProfessor;
     }
 
-
-
+    public void setIdProfessor(int idProfessor) {
+        this.idProfessor = idProfessor;
+    }
 }

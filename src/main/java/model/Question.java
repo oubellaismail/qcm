@@ -1,7 +1,5 @@
 package model;
 
-import model.Option;
-
 import java.util.List;
 
 public class Question {

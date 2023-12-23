@@ -1,18 +1,30 @@
 --! Create db
 
-CREATE DATABASE IF NOT EXISTS JavaQuiz;
-
-
+CREATE DATABASE JavaQuiz;
 
 USE quiz;
 
---! Create the 'Persons' table
-CREATE TABLE IF NOT EXISTS Persons (
+--! Create the  tables
+
+CREATE TABLE Persons (
     id INT AUTO_INCREMENT PRIMARY KEY,
     firstName VARCHAR(255) NOT NULL,
     lastName VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL
+);
+
+
+CREATE TABLE Professors (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    personId INT NOT NULL,
+    FOREIGN KEY (personId) REFERENCES Persons(id)
+);
+
+CREATE TABLE Students (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    personId INT NOT NULL,
+    FOREIGN KEY (personId) REFERENCES Persons(id)
 );
 
 

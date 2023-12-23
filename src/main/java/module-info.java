@@ -6,5 +6,4 @@ module controller.qcmpro {
 
     opens controller.qcmpro to javafx.fxml;
     exports controller.qcmpro;
-
 }
