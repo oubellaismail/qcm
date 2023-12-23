@@ -1,10 +1,12 @@
 package DAO;
+
 import model.Person;
-import java.util.*;
+import java.util.List;
+
 public interface PersonDAO {
-    public void insertPerson(Person person);
-    public Person findPerson(int id);
-    public List<Person> findAll();
-    public void updatePerson(Person person);
-    public void deletePerson(int id);
+    void insertPerson(Person person);
+    Person findPerson(int id);
+    List<Person> findAll();
+    void updatePerson(Person person);
+    void deletePerson(int id);
 }

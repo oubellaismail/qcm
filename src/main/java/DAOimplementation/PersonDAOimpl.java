@@ -129,12 +129,12 @@ public class PersonDAOimpl implements PersonDAO {
     public void updatePerson(Person person){
         try (Connection connection = getConnection(); ) {
             PreparedStatement statement = connection.prepareStatement(UPDATE_PERSON_SQL);
-            statement.setInt(1, person.getId());
-            statement.setString(2, person.getFirstName());
-            statement.setString(3, person.getLastName());
-            statement.setString(4, person.getEmail());
-            statement.setString(5, person.getPassword());
-
+            statement.setString(1, person.getFirstName());
+            statement.setString(2, person.getLastName());
+            statement.setString(3, person.getEmail());
+            statement.setString(4, person.getPassword());
+            
+            statement.setInt(5, person.getId());
             statement.executeUpdate();
 
         } 
@@ -160,3 +160,5 @@ public class PersonDAOimpl implements PersonDAO {
     }
 }
     
+
+
