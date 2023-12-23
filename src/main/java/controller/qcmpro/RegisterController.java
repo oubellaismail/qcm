@@ -1,8 +1,11 @@
 package controller.qcmpro;
 
+import DAO.PersonDAO;
+import DAOimplementation.PersonDAOimpl;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import model.Person;
 
 public class RegisterController {
 
@@ -21,13 +24,16 @@ public class RegisterController {
     @FXML
     private Button registerButton;
 
+    public void setRegisterButtonActionHandler() {
+        registerButton.setOnAction(event -> handleRegisterButtonAction());
+    }
+
+    PersonDAO personDAO = new PersonDAOimpl();
+
     @FXML
     private void handleRegisterButtonAction() {
-        // Add your registration logic here
-        System.out.println("Register Button Clicked");
-        System.out.println("First Name: " + firstNameField.getText());
-        System.out.println("Last Name: " + lastNameField.getText());
-        System.out.println("Email: " + emailField.getText());
-        System.out.println("Password: " + passwordField.getText());
+        PersonDAO personDAO = new PersonDAOimpl();
+        Person person = new Person(6,firstNameField.getText(), lastNameField.getText(), emailField.getText(), passwordField.getText());
+        personDAO.insertPerson(person);
     }
 }

@@ -15,8 +15,8 @@ import model.Person;
 public class PersonDAOimpl implements PersonDAO {
 
     public String jdbcURL = "jdbc:mysql://localhost:3306/JavaQuiz";
-    public String jdbcUsername = "ismail";
-    public String jdbcPassword = "just";
+    public String jdbcUsername = "root";
+    public String jdbcPassword = "";
 
     private static final String  INSERT_PERSON_SQL = "INSERT INTO Persons" +
         " (id, firstName, lastName, email, password) VALUES" + 
@@ -34,7 +34,7 @@ public class PersonDAOimpl implements PersonDAO {
     protected Connection getConnection(){
         Connection connection = null;
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
         }
 
