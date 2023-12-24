@@ -3,27 +3,43 @@ package app;//
 // (powered by FernFlower decompiler)
 //
 
-import DAO.ProfessorDAO;
-import DAOimplementation.ProfessorDAOimpl;
-import model.Person;
-import model.Professor;
+import java.util.List;
+
+import DAO.StudentDAO;
+import DAOimplementation.StudentDAOimpl;
+import model.Student;
 
 public class Main {
     public static void main(String[] args) {
-        ProfessorDAO professorDAO = new ProfessorDAOimpl();
-        // professorDAO.insertPerson(new Professor(0, "johan", "laddies", "and", "pass"));
-        // professorDAO.deletePerson(6);
+        StudentDAO studentDAO = new StudentDAOimpl();
+        // studentDAO.insertStudent(new Student(0, "johan", "youtube", "he", "lqjf"));
+        // studentDAO.insertStudent(new Student(0, "name", "lad", "qf", "lkqjf"));
+        studentDAO.insertStudent(new Student(0, "pass", "ladddfqies", "qf", "qljf"));
+        // studentDAO.deleteStudent(1);
+        
+        // Student student =  studentDAO.findStudent(4);
 
-        Professor professor =  professorDAO.findProfessor(7);
+        // System.out.println(student.getIdStudent() + " " + student.getId() + " " + student.getFirstName() + " " + student.getLastName() + " " + student.getEmail() + " " +  student.getPassword());
 
-        System.out.println(professor.getIdProfessor() + " " + professor.getId() + " " + professor.getFirstName() + " " + professor.getLastName() + " " + professor.getEmail() + " " +  professor.getPassword());
-        // professor.setPassword("null");
-        // System.out.println(professor.getIdProfessor() + " " + professor.getId() + " " + professor.getFirstName() + " " + professor.getLastName() + " " + professor.getEmail() + " " +  professor.getPassword());
-        // professorDAO.updateProfessor(professor);
+        // student.setFirstName("null");
+        // student.setLastName("null");
+        // student.setEmail("null");
+        // student.setPassword("null");
+        
+        // System.out.println(student.getIdStudent() + " " + student.getId() + " " + student.getFirstName() + " " + student.getLastName() + " " + student.getEmail() + " " +  student.getPassword());
+        // studentDAO.updateStudent(student);
+        
+        // Student pro = studentDAO.findStudent(4);
+        // System.out.println(pro.getIdStudent() + " " + pro.getId() + " " + pro.getFirstName() + " " + pro.getLastName() + " " + pro.getEmail() + " " +  pro.getPassword());
 
-        // Professor pro = professorDAO.findProfessor(7);
-        // System.out.println(pro.getIdProfessor() + " " + pro.getId() + " " + pro.getFirstName() + " " + pro.getLastName() + " " + pro.getEmail() + " " +  pro.getPassword());
+        // studentDAO.deleteStudent(4);
 
-        professorDAO.deleteProfessor(7);
+
+
+        List<Student> students = studentDAO.findAll();
+        for(Student student : students){
+            System.out.println(student.getIdStudent() + " " + student.getId() + " " + student.getFirstName() + " " + student.getLastName() + " " + student.getEmail() + " " +  student.getPassword());
+        }
+        
     }
 }
