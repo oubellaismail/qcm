@@ -8,9 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import DAO.ProfessorDAO;
+import model.Person;
 import model.Professor;
+import model.Quiz;
 
 public class ProfessorDAOimpl implements ProfessorDAO {
+    
     public String jdbcURL = "jdbc:mysql://localhost:3306/JavaQuiz";
     public String jdbcUsername = "ismail";
     public String jdbcPassword = "just";
@@ -33,6 +36,18 @@ public class ProfessorDAOimpl implements ProfessorDAO {
     private static final String SELECT_PROFESSOR_BY_ID_SQL = "SELECT * from Professors where id = ? ;";
     private static final String SELECT_PROFESSORS_SQL = "SELECT * from Professors";
     private static final String DELETE_PROFESSOR_SQL = "DELETE FROM Professors WHERE id = ? ;";
+
+    private static final String INSERT_QUIZ_SQL = "INSERT INTO Quizs" +
+            " (title, description, professorId) VALUES" +
+            "(?, ?, ?);";
+
+    private static final String SELECT_QUIZ_BY_ID_SQL = "SELECT * from Quizs where id = ? ;";
+
+    private static final String SELECT_QUIZS_SQL = "SELECT * from Quizs";
+
+    private static final String UPDATE_QUIZ_SQL = "UPDATE Quizs set title = ?, description = ? WHERE id = ?;";
+
+    private static final String DELETE_QUIZ_SQL = "DELETE FROM Quizs WHERE id = ?;";
 
 
     protected Connection getConnection(){
@@ -129,7 +144,7 @@ public class ProfessorDAOimpl implements ProfessorDAO {
     }
 
     @Override
-    public List<Professor> findAll(){
+    public List<Professor> findAllProf(){
         List <Professor> professors = new  ArrayList<>();
         try (Connection connection = getConnection() ;) {
             PreparedStatement profStatement = connection.prepareStatement(SELECT_PROFESSORS_SQL);
@@ -213,6 +228,107 @@ public class ProfessorDAOimpl implements ProfessorDAO {
 
         } 
 
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }           
+
+    @Override
+    public void insertQuiz(int id, Quiz quiz){
+        try (Connection connection =getConnection();){
+            PreparedStatement preparedStatement = connection.prepareStatement(INSERT_QUIZ_SQL);
+            preparedStatement.setString(1, quiz.getTitle());
+            preparedStatement.setString(2, quiz.getDescription());
+            preparedStatement.setInt(3, id);
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+    @Override
+    public Quiz findQuiz(int id){
+        Quiz quiz = null;
+        try (Connection connection = getConnection();) {
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_QUIZ_BY_ID_SQL);
+            preparedStatement.setInt(1, id);
+            ResultSet rs = preparedStatement.executeQuery();
+
+            while (rs.next()) {
+                String title = rs.getString("title");
+                String description = rs.getString("description");
+                int professorId = rs.getInt("professorId");
+
+                quiz = new Quiz(id, title, description, professorId);
+
+            }
+        } 
+        
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return quiz;
+    }
+
+
+    @Override
+    public List<Quiz> findAllQuizs(){
+        List<Quiz> quizs = new ArrayList<>();
+        try (Connection connection = getConnection();) {
+        
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_QUIZS_SQL);
+            ResultSet rs = preparedStatement.executeQuery();
+
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String title =  rs.getString("title");
+                String description = rs.getString("description");
+                int professorId = rs.getInt("professorId");
+                
+                quizs.add(new Quiz(id, title, description, professorId));
+
+            }
+        } 
+        
+        catch (SQLException e) { 
+            e.printStackTrace();
+        }
+
+        return quizs;
+    }
+
+
+    @Override
+    public void updateQuiz(Quiz quiz){
+        try (Connection connection = getConnection(); ) {
+            PreparedStatement statement = connection.prepareStatement(UPDATE_QUIZ_SQL);
+            statement.setString(1, quiz.getTitle());
+            statement.setString(2, quiz.getDescription());
+            
+            statement.setInt(3, quiz.getId());
+            statement.executeUpdate();
+
+        } 
+        
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    @Override
+    public void deleteQuiz(int id){
+        
+        try (Connection connection = getConnection(); ) {
+            PreparedStatement statement = connection.prepareStatement(DELETE_QUIZ_SQL);
+            statement.setInt(1, id);
+            statement.executeUpdate();
+        } 
+        
         catch (SQLException e) {
             e.printStackTrace();
         }

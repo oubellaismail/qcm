@@ -1,12 +1,20 @@
 package DAO;
 
 import model.Professor;
-import java.util.List;
+import model.Quiz;
 
-public interface ProfessorDAO {
+import java.util.List;
+import DAO.QuizDAO;
+
+public interface ProfessorDAO extends QuizDAO{
     void insertProfessor(Professor professor);
     Professor findProfessor(int id);
-    List<Professor> findAll();
+    List<Professor> findAllProf();
     void updateProfessor(Professor professor);
     void deleteProfessor(int id);
+    public void insertQuiz(int id, Quiz quiz);
+    public Quiz findQuiz(int id);
+    public List<Quiz> findAllQuizs();
+    public void updateQuiz(Quiz quiz);
+    public void deleteQuiz(int id);
 }

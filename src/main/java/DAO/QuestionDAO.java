@@ -1,6 +1,7 @@
 package DAO;
-import java.util.*;
+import java.util.List;
 import model.Question;
+
 public interface QuestionDAO {
     public void insertQuestion(Question question);
     public Question findQuestion(int id);
