@@ -7,11 +7,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import DAO.PersonDAO;
-import model.Person;
+import DAO.ProfessorDAO;
 import model.Professor;
 
-public class ProfessorDAOimpl implements PersonDAO {
+public class ProfessorDAOimpl implements ProfessorDAO {
     public String jdbcURL = "jdbc:mysql://localhost:3306/JavaQuiz";
     public String jdbcUsername = "ismail";
     public String jdbcPassword = "just";
@@ -56,14 +55,14 @@ public class ProfessorDAOimpl implements PersonDAO {
     }
 
     @Override
-    public void insertPerson(Person person) {
+    public void insertProfessor(Professor professor) {
         try (Connection connection = getConnection()) {
             PreparedStatement personStatement = connection.prepareStatement(INSERT_PERSON_SQL,
                     PreparedStatement.RETURN_GENERATED_KEYS);
-            personStatement.setString(1, person.getFirstName());
-            personStatement.setString(2, person.getLastName());
-            personStatement.setString(3, person.getEmail());
-            personStatement.setString(4, person.getPassword());
+            personStatement.setString(1, professor.getFirstName());
+            personStatement.setString(2, professor.getLastName());
+            personStatement.setString(3, professor.getEmail());
+            personStatement.setString(4, professor.getPassword());
 
             int affectedRows = personStatement.executeUpdate();
 
@@ -89,8 +88,8 @@ public class ProfessorDAOimpl implements PersonDAO {
     }
 
     @Override
-    public Person findPerson(int id){
-        Person person = null;
+    public Professor findProfessor(int id){
+        Professor professor = null;
         try (Connection connection = getConnection();) {
             PreparedStatement profStatement = connection.prepareStatement(SELECT_PROFESSOR_BY_ID_SQL);
             PreparedStatement personStatement = connection.prepareStatement(SELECT_PERSON_BY_ID_SQL);
@@ -106,12 +105,14 @@ public class ProfessorDAOimpl implements PersonDAO {
                     try (ResultSet resultSet = personStatement.executeQuery();) {
 
                         while (resultSet.next()) {
+                            int id_person = resultSet.getInt("id");
                             String firstName = resultSet.getString("firstName");
                             String lastName = resultSet.getString("lastName");
                             String email = resultSet.getString("email");
                             String password = resultSet.getString("password");
         
-                            person = new Professor(id, firstName, lastName, email, password);
+                            professor = new Professor(id_person, firstName, lastName, email, password);
+                            professor.setIdProfessor(id);
                         }
                     }
                 }
@@ -124,12 +125,12 @@ public class ProfessorDAOimpl implements PersonDAO {
             e.printStackTrace();
         }
 
-        return person;
+        return professor;
     }
 
     @Override
-    public List<Person> findAll(){
-        List <Person> persons = new  ArrayList<>();
+    public List<Professor> findAll(){
+        List <Professor> professors = new  ArrayList<>();
         try (Connection connection = getConnection() ;) {
             PreparedStatement profStatement = connection.prepareStatement(SELECT_PROFESSORS_SQL);
             PreparedStatement personStatement = connection.prepareStatement(SELECT_PERSON_BY_ID_SQL);
@@ -149,7 +150,7 @@ public class ProfessorDAOimpl implements PersonDAO {
                             String password = perRs.getString("password");
                             Professor professor = new Professor(id, firstName, lastName, email, password);
                             professor.setIdProfessor(profID);
-                            persons.add(professor);
+                            professors.add(professor);
 
                         }
                     }
@@ -160,25 +161,25 @@ public class ProfessorDAOimpl implements PersonDAO {
             e.printStackTrace();
         }
         
-        return persons;
+        return professors;
     }
 
 
 
     @Override
-    public void updatePerson(Person person){
+    public void updateProfessor(Professor professor){
         try (Connection connection = getConnection(); ) {
             PreparedStatement personStatement = connection.prepareStatement(UPDATE_PERSON_SQL);
-            
-            personStatement.setString(1, person.getFirstName());
-            personStatement.setString(2, person.getLastName());
-            personStatement.setString(3, person.getEmail());
-            personStatement.setString(4, person.getPassword());  
-            personStatement.setInt(5, person.getId());
 
+            personStatement.setString(1, professor.getFirstName());
+            personStatement.setString(2, professor.getLastName());
+            personStatement.setString(3, professor.getEmail());
+            personStatement.setString(4, professor.getPassword());  
+            personStatement.setInt(5, professor.getId());
+            
             personStatement.executeUpdate();
 
-        } 
+        }
         
         catch (SQLException e) {
             e.printStackTrace();
@@ -186,7 +187,7 @@ public class ProfessorDAOimpl implements PersonDAO {
     }
 
     @Override
-    public void deletePerson(int id){
+    public void deleteProfessor(int id){
         try (Connection connection = getConnection();) {
             PreparedStatement personStatement = connection.prepareStatement(DELETE_PERSON_SQL);
             PreparedStatement prof_Delete_Statement = connection.prepareStatement(DELETE_PROFESSOR_SQL);
