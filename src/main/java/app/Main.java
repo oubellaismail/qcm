@@ -6,15 +6,14 @@ package app;//
 import java.util.List;
 
 import DAO.StudentDAO;
-import DAOimplementation.StudentDAOimpl;
 import model.Student;
 
 public class Main {
     public static void main(String[] args) {
-        StudentDAO studentDAO = new StudentDAOimpl();
+        // StudentDAO studentDAO = new StudentDAOimpl();
         // studentDAO.insertStudent(new Student(0, "johan", "youtube", "he", "lqjf"));
         // studentDAO.insertStudent(new Student(0, "name", "lad", "qf", "lkqjf"));
-        studentDAO.insertStudent(new Student(0, "pass", "ladddfqies", "qf", "qljf"));
+        // studentDAO.insertStudent(new Student(0, "pass", "ladddfqies", "qf", "qljf"));
         // studentDAO.deleteStudent(1);
         
         // Student student =  studentDAO.findStudent(4);
@@ -36,10 +35,10 @@ public class Main {
 
 
 
-        List<Student> students = studentDAO.findAll();
-        for(Student student : students){
-            System.out.println(student.getIdStudent() + " " + student.getId() + " " + student.getFirstName() + " " + student.getLastName() + " " + student.getEmail() + " " +  student.getPassword());
-        }
+        // List<Student> students = studentDAO.findAll();
+        // for(Student student : students){
+        //     System.out.println(student.getIdStudent() + " " + student.getId() + " " + student.getFirstName() + " " + student.getLastName() + " " + student.getEmail() + " " +  student.getPassword());
+        // }
         
     }
 }
