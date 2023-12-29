@@ -146,7 +146,7 @@ public class QuestionDAOimp implements QuestionDAO{
     
     public void deleteQuestion(int id){
         try (Connection connection = getConnection();) {
-            PreparedStatement questionStatement = connection.prepareStatement(DELETE_QUESTION_SQL););
+            PreparedStatement questionStatement = connection.prepareStatement(DELETE_QUESTION_SQL);
 
             // ! Missign lines !
 
