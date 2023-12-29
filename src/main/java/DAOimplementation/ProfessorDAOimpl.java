@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import DAO.ProfessorDAO;
-import model.Person;
 import model.Professor;
 import model.Quiz;
 
@@ -333,5 +332,7 @@ public class ProfessorDAOimpl implements ProfessorDAO {
             e.printStackTrace();
         }
     }
+
+    
 
 }

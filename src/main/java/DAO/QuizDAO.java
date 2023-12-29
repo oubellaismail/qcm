@@ -7,4 +7,7 @@ public interface QuizDAO {
     public List<Quiz> findAllQuizs();
     public void updateQuiz(Quiz quiz);
     public void deleteQuiz(int id);
+
+    
+    
 }

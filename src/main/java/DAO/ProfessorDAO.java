@@ -4,7 +4,6 @@ import model.Professor;
 import model.Quiz;
 
 import java.util.List;
-import DAO.QuizDAO;
 
 public interface ProfessorDAO extends QuizDAO{
     void insertProfessor(Professor professor);

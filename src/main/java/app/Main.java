@@ -120,7 +120,7 @@ public class Main {
     
             //? delete Quiz
 
-        // ProfessorDAO.deleteQuiz(9);
+        ProfessorDAO.deleteQuiz(5);
     
     }
 
