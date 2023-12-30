@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import com.json.DAO.AnswersDAO;
 import com.json.model.Answers;
 
-public class AnswersDAOimpl implements AnswersDAO {
+public class AnswersDAOimp implements AnswersDAO {
     public String jdbcUrl = "jdbc:mysql://localhost:3306/quiz-app";
     public String jdbcUser = "ismail";
     public String jdbcPassword = "just";
@@ -40,9 +40,10 @@ public class AnswersDAOimpl implements AnswersDAO {
         return connection;
     }
     
-    public void insertAnswers(Answers answers) {
+    public int insertAnswers(Answers answers) {
         try (Connection connection = getConnection()) {
-            PreparedStatement answersStatement = connection.prepareStatement(INSERT_ANSWERS_SQL);
+            PreparedStatement answersStatement = connection.prepareStatement(INSERT_ANSWERS_SQL,
+                    PreparedStatement.RETURN_GENERATED_KEYS);
 
             answersStatement.setString(1, answers.getAnswer_a());
             answersStatement.setString(2, answers.getAnswer_b());
@@ -52,9 +53,21 @@ public class AnswersDAOimpl implements AnswersDAO {
             answersStatement.setString(5, answers.getAnswer_f());
 
             answersStatement.executeUpdate();
+
+            try (ResultSet generatedKeys = answersStatement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    return generatedKeys.getInt(1);
+                }
+                else {
+                    throw new SQLException("Creating Answers failed, no ID obtained.");
+
+                }
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        return -1;
     }
 
     public Answers findAnswers(int id) {
@@ -85,10 +98,10 @@ public class AnswersDAOimpl implements AnswersDAO {
 
     public void deleteAnswers(int id) {
         try (Connection connection = getConnection();) {
-            PreparedStatement questionStatement = connection.prepareStatement(DELETE_ANSWERS_SQL);
+            PreparedStatement answersStatement = connection.prepareStatement(DELETE_ANSWERS_SQL);
 
-            questionStatement.setInt(1, id);
-            questionStatement.executeUpdate();
+            answersStatement.setInt(1, id);
+            answersStatement.executeUpdate();
         }
 
         catch (SQLException e) {

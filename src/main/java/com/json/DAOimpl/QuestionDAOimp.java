@@ -8,8 +8,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.json.model.CorrectAnswers;
 import com.json.model.Question;
 import com.json.DAO.QuestionDAO;
+import com.json.DAOimpl.AnswersDAOimp;
+import com.json.DAO.CorrectAnswersDAO;
+import com.json.DAOimpl.CorrectAnswersDAOimp;
+import com.json.DAOimpl.TagDAOimp;
+import com.json.model.Tag;
 
 public class QuestionDAOimp implements QuestionDAO{
     public String jdbcUrl = "jdbc:mysql://localhost:3306/quiz-app";
@@ -62,9 +68,10 @@ public class QuestionDAOimp implements QuestionDAO{
             questionStatement.setString(8, question.getCategory());
             questionStatement.setString(9, question.getDifficulty());
              
-            questionStatement.setInt(10, 0); //? answers_id
-            questionStatement.setInt(11, 0); //? correct_answers_id
-            questionStatement.setInt(12, 0); //? tag_id
+
+            questionStatement.setInt(10, new AnswersDAOimp().insertAnswers(question.getAnswers())); //? answers_id
+            questionStatement.setInt(11, new CorrectAnswersDAOimp().insertCorrectAnswers(question.getCorrect_answers())); //? correct_answers_id
+            questionStatement.setInt(12, new TagDAOimp().insertTag(new Tag(question.getTags().getFirst().getName()))); //? tag_id
 
             questionStatement.executeUpdate();
         } catch (SQLException e) {
@@ -94,8 +101,24 @@ public class QuestionDAOimp implements QuestionDAO{
                     int AnswersId = resultSet.getInt("answers_id");
                     int correctAnswerId = resultSet.getInt("correct_answers_id");
                     int tagId = resultSet.getInt("tag_id");
+
+                    List <Tag> tagList = new ArrayList<Tag>();
+                    tagList.add(new TagDAOimp().findTag(tagId));
                     
-                    // ! Missing lines ! 
+                    question = new Question (
+                        id,
+                        questionText,
+                        description,
+                        new AnswersDAOimp().findAnswers(AnswersId),
+                        multipleCorrectAnswers,
+                        new CorrectAnswersDAOimp().findCorrectAnswers(correctAnswerId),
+                        correctAnswer,
+                        explanation,
+                        tip,
+                        tagList,
+                        category,
+                        difficulty
+                    );
                 }
             }
 
@@ -130,7 +153,26 @@ public class QuestionDAOimp implements QuestionDAO{
                     int correctAnswerId = resultSet.getInt("correct_answers_id");
                     int tagId = resultSet.getInt("tag_id");
 
-                    // ! Missing lines ! 
+
+                    List <Tag> tagList = new ArrayList<Tag>();
+                    tagList.add(new TagDAOimp().findTag(tagId));
+                    
+                    questionList.add (
+                        new Question (
+                            id,
+                            questionText,
+                            description,
+                            new AnswersDAOimp().findAnswers(AnswersId),
+                            multipleCorrectAnswers,
+                            new CorrectAnswersDAOimp().findCorrectAnswers(correctAnswerId),
+                            correctAnswer,
+                            explanation,
+                            tip,
+                            tagList,
+                            category,
+                            difficulty
+                        )
+                    );
                 }
             }
 
@@ -148,7 +190,9 @@ public class QuestionDAOimp implements QuestionDAO{
         try (Connection connection = getConnection();) {
             PreparedStatement questionStatement = connection.prepareStatement(DELETE_QUESTION_SQL);
 
-            // ! Missign lines !
+            Question question = findQuestion(id);
+            new AnswersDAOimp().deleteAnswers(question.getAnswers().getId());
+            new CorrectAnswersDAOimp().deleteCorrectAnswers(question.getCorrect_answers().getId());
 
             questionStatement.setInt(1, id);
             questionStatement.executeUpdate();
