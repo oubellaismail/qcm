@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import com.json.DAO.CorrectAnswersDAO;
 import com.json.model.CorrectAnswers;
 
-public class CorrectAnswersDAOimpl implements CorrectAnswersDAO {
+public class CorrectAnswersDAOimp implements CorrectAnswersDAO {
     public String jdbcUrl = "jdbc:mysql://localhost:3306/quiz-app";
     public String jdbcUser = "ismail";
     public String jdbcPassword = "just";
@@ -40,9 +40,10 @@ public class CorrectAnswersDAOimpl implements CorrectAnswersDAO {
         return connection;
     }
     
-    public void insertCorrectAnswers(CorrectAnswers correctAnswers) {
+    public int insertCorrectAnswers(CorrectAnswers correctAnswers) {
         try (Connection connection = getConnection()) {
-            PreparedStatement answersStatement = connection.prepareStatement(INSERT_CORRECT_ANSWERS_SQL);
+            PreparedStatement answersStatement = connection.prepareStatement(INSERT_CORRECT_ANSWERS_SQL,
+                    PreparedStatement.RETURN_GENERATED_KEYS);
 
             answersStatement.setBoolean(1, correctAnswers.getAnswer_a_correct());
             answersStatement.setBoolean(2, correctAnswers.getAnswer_b_correct());
@@ -52,9 +53,21 @@ public class CorrectAnswersDAOimpl implements CorrectAnswersDAO {
             answersStatement.setBoolean(5, correctAnswers.getAnswer_f_correct());
 
             answersStatement.executeUpdate();
+            
+            try (ResultSet generatedKeys = answersStatement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    return generatedKeys.getInt(1);
+                } else {
+                    throw new SQLException("Creating Answers failed, no ID obtained.");
+
+                }
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        return -1;
     }
 
     public CorrectAnswers findCorrectAnswers(int id) {
