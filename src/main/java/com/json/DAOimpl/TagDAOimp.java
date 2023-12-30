@@ -18,9 +18,9 @@ public class TagDAOimp implements TagDAO {
             "(name) VALUES " +
             "(?) ;";
 
-    private static final String SELECT_TAGS_BY_ID = "SELECT FROM TAGS WHERE id = ? ;";
+    private static final String SELECT_TAGS_BY_ID = "SELECT * FROM TAGS WHERE id = ? ;";
 
-    private static final String SELECT_TAGS_BY_NAME = "SELECT FROM TAGS WHERE name = ?;";
+    private static final String SELECT_TAGS_BY_NAME = "SELECT * FROM TAGS WHERE name = ?;";
 
     private static final String DELETE_TAGS_SQL = "DELETE FROM TAGS WHERE id = ? ;";
 

@@ -16,9 +16,9 @@ public class AnswersDAOimp implements AnswersDAO {
 
     private static final String INSERT_ANSWERS_SQL = "INSERT INTO ANSWERS " +
             "(answer_a, answer_b, answer_c, answer_d, answer_e, answer_f) VALUES " +
-            "(?, ?, ?, ?, ?) ;";
+            "(?, ?, ?, ?, ?, ?) ;";
 
-    private static final String SELECT_ANSWERS_BY_ID = "SELECT FROM ANSWERS WHERE id = ? ;";
+    private static final String SELECT_ANSWERS_BY_ID = "SELECT  * FROM ANSWERS WHERE id = ? ;";
 
     private static final String DELETE_ANSWERS_SQL = "DELETE FROM ANSWERS WHERE id = ? ;";
 
@@ -50,7 +50,7 @@ public class AnswersDAOimp implements AnswersDAO {
             answersStatement.setString(3, answers.getAnswer_c());
             answersStatement.setString(4, answers.getAnswer_d());
             answersStatement.setString(5, answers.getAnswer_e());
-            answersStatement.setString(5, answers.getAnswer_f());
+            answersStatement.setString(6, answers.getAnswer_f());
 
             answersStatement.executeUpdate();
 
