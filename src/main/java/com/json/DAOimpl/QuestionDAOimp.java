@@ -211,11 +211,11 @@ public class QuestionDAOimp implements QuestionDAO{
             PreparedStatement questionStatement = connection.prepareStatement(DELETE_QUESTION_SQL);
 
             Question question = findQuestion(id);
-            new AnswersDAOimp().deleteAnswers(question.getAnswers().getId());
-            new CorrectAnswersDAOimp().deleteCorrectAnswers(question.getCorrect_answers().getId());
-
+            
             questionStatement.setInt(1, id);
             questionStatement.executeUpdate();
+            new AnswersDAOimp().deleteAnswers(question.getAnswers().getId());
+            new CorrectAnswersDAOimp().deleteCorrectAnswers(question.getCorrect_answers().getId());
         }
 
         catch (SQLException e) {

@@ -17,6 +17,9 @@ public class Main {
     public static void main(String[] args) {
 
         int count = 1;
+        QuizDAO quizDAO = new QuizDAOimp();
+        QuestionDAO questionDAO = new QuestionDAOimp();
+
 
         if (count == 0) {
             
@@ -86,12 +89,15 @@ public class Main {
         
         
                 System.out.println("****************************************************************************************************************");
-                QuizDAO quizDAO = new QuizDAOimp();
                 quizDAO.insertQuiz(new Quiz (questionzes));
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+
+        else {
+            quizDAO.deleteQuiz(5);
         }
 
     }

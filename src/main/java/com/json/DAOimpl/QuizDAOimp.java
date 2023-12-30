@@ -89,7 +89,7 @@ public class QuizDAOimp implements QuizDAO {
                     List<Question> questionList = new ArrayList<Question>();
 
                     for (int i = 1; i <= count; i++) {
-                        int questionId = resultSet.getInt("Q" + String.valueOf(id));
+                        int questionId = resultSet.getInt("Q" + String.valueOf(i));
                         questionList.add(new QuestionDAOimp().findQuestion(questionId));
                     } 
 
@@ -137,8 +137,18 @@ public class QuizDAOimp implements QuizDAO {
         try (Connection connection = getConnection();) {
             PreparedStatement quizStatement = connection.prepareStatement(DELETE_QUIZ_SQL);
 
+            Quiz quiz = findQuiz(id);
+
             quizStatement.setInt(1, id);
             quizStatement.executeUpdate();
+
+            QuestionDAO questionDAO = new QuestionDAOimp();
+
+            for (int index = 0; index < count; index++) {
+                questionDAO.deleteQuestion(quiz.getQuestions().get(index).getId());
+            }
+
+
         }
 
         catch (SQLException e) {
