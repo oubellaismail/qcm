@@ -19,8 +19,8 @@ import com.json.model.Tag;
 
 public class QuestionDAOimp implements QuestionDAO{
     public String jdbcUrl = "jdbc:mysql://localhost:3306/quiz-app";
-    public String jdbcUser = "ismail";
-    public String jdbcPassword = "just";
+    public String jdbcUser = "root";
+    public String jdbcPassword = "";
 
     //! question id will not be auto increment !
 

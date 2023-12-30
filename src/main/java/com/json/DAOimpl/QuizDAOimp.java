@@ -20,8 +20,8 @@ public class QuizDAOimp implements QuizDAO {
 
 
     public String jdbcUrl = "jdbc:mysql://localhost:3306/quiz-app";
-    public String jdbcUser = "ismail";
-    public String jdbcPassword = "just";
+    public String jdbcUser = "root";
+    public String jdbcPassword = "";
 
     private static final String INSERT_QUIZ_SQL = "INSERT INTO Quiz " +
         "(Q1, Q2, Q3, Q4, Q5) VALUES " +

@@ -16,7 +16,7 @@ import com.json.DAOimpl.*;
 public class Main {
     public static void main(String[] args) {
 
-        int count = 1;
+        int count = 0;
         QuizDAO quizDAO = new QuizDAOimp();
         QuestionDAO questionDAO = new QuestionDAOimp();
 

@@ -8,16 +8,17 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class HomeApplication extends Application {
+public class QuizApp extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(RegisterApplication.class.getResource("home-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(QuizApp.class.getResource("quiz.fxml"));
         Parent root = fxmlLoader.load();
         Scene scene = new Scene(root);
-        stage.setTitle("Home");
+        stage.setTitle("Quiz Application");
         stage.setScene(scene);
         stage.show();
     }
+
     public static void main(String[] args) {
         launch();
     }

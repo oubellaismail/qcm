@@ -5,5 +5,8 @@ module controller.qcmpro {
 
 
     opens controller.qcmpro to javafx.fxml;
+    opens com.json.model to com.google.gson;
+    requires com.google.gson;
+    requires java.net.http;
     exports controller.qcmpro;
 }
