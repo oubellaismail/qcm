@@ -16,9 +16,9 @@ public class CorrectAnswersDAOimp implements CorrectAnswersDAO {
 
     private static final String INSERT_CORRECT_ANSWERS_SQL = "INSERT INTO CORRECT_ANSWERS " +
             "(answer_a_correct, answer_b_correct, answer_c_correct, answer_d_correct, answer_e_correct, answer_f_correct) VALUES " +
-            "(?, ?, ?, ?, ?) ;";
+            "(?, ?, ?, ?, ?, ?) ;";
 
-    private static final String SELECT_CORRECT_ANSWERS_BY_ID = "SELECT FROM CORRECT_ANSWERS WHERE id = ? ;";
+    private static final String SELECT_CORRECT_ANSWERS_BY_ID = "SELECT * FROM CORRECT_ANSWERS WHERE id = ? ;";
 
     private static final String DELETE_CORRECT_ANSWERS_SQL = "DELETE FROM CORRECT_ANSWERS WHERE id = ? ;";
 
@@ -50,7 +50,7 @@ public class CorrectAnswersDAOimp implements CorrectAnswersDAO {
             answersStatement.setBoolean(3, correctAnswers.getAnswer_c_correct());
             answersStatement.setBoolean(4, correctAnswers.getAnswer_d_correct());
             answersStatement.setBoolean(5, correctAnswers.getAnswer_e_correct());
-            answersStatement.setBoolean(5, correctAnswers.getAnswer_f_correct());
+            answersStatement.setBoolean(6, correctAnswers.getAnswer_f_correct());
 
             answersStatement.executeUpdate();
             

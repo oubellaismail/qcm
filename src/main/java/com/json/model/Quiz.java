@@ -8,6 +8,11 @@ public class Quiz {
     public Quiz() {
     }
 
+
+    public Quiz(List<Question> questions) {
+        this.questions = questions;
+    }
+
     public Quiz(int id, List<Question> questions) {
         this.id = id;
         this.questions = questions;

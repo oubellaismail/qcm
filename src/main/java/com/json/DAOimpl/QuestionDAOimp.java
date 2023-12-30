@@ -24,16 +24,16 @@ public class QuestionDAOimp implements QuestionDAO{
 
     //! question id will not be auto increment !
 
-    private static final String INSERT_QUESTION_SQL = "INSERT INTO QUISTION " + 
+    private static final String INSERT_QUESTION_SQL = "INSERT INTO QUESTION " + 
         "(id, question, description, multiple_correct_answers, correct_answer, explanation, tip, category, difficulty, answers_id, correct_answers_id, tag_id)" + 
-        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?;)"
+        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);"
     ;
 
-    private static final String SELECT_QUESTION_BY_ID = "SELECT_FROM QUESTION WHERE id = ? ;";
+    private static final String SELECT_QUESTION_BY_ID = "SELECT * FROM QUESTION WHERE id = ? ;";
 
-    private static final String SELECT_QUESTIONS_SQL = "SELECT * from QUSTION ;" ;
+    private static final String SELECT_QUESTIONS_SQL = "SELECT * from QUESTION ;" ;
 
-    private static final String DELETE_QUESTION_SQL = "DELETE FROM QUSTION WHERE id = ? ;";
+    private static final String DELETE_QUESTION_SQL = "DELETE FROM QUESTION WHERE id = ? ;";
 
     protected Connection getConnection() {
         Connection connection = null;
@@ -54,29 +54,41 @@ public class QuestionDAOimp implements QuestionDAO{
     }
 
     
-    public void insertQuestion(Question question){
+    public int insertQuestion(Question question){
+
         try (Connection connection = getConnection()) {
-            PreparedStatement questionStatement = connection.prepareStatement(INSERT_QUESTION_SQL);
+            Question exestingQuestion = findQuestion(question.getId());
+            if (exestingQuestion != null) {
+                return question.getId();
+            } else {                
+                PreparedStatement questionStatement = connection.prepareStatement(INSERT_QUESTION_SQL);
+    
+                questionStatement.setInt(1, question.getId());
+                questionStatement.setString(2, question.getQuestion());
+                questionStatement.setString(3, question.getDescription());
+                questionStatement.setBoolean(4, question.getMultiple_correct_answers());
+                questionStatement.setString(5, question.getCorrect_answer());
+                questionStatement.setString(6, question.getExplanation());
+                questionStatement.setString(7, question.getTip());
+                questionStatement.setString(8, question.getCategory());
+                questionStatement.setString(9, question.getDifficulty());
+                 
+    
+                questionStatement.setInt(10, new AnswersDAOimp().insertAnswers(question.getAnswers())); //? answers_id
+                questionStatement.setInt(11, new CorrectAnswersDAOimp().insertCorrectAnswers(question.getCorrect_answers())); //? correct_answers_id
+                questionStatement.setInt(12, new TagDAOimp().insertTag(new Tag(question.getTags().getFirst().getName()))); //? tag_id
+    
+                questionStatement.executeUpdate();
+    
+                return question.getId();
+            }
 
-            questionStatement.setInt(1, question.getId());
-            questionStatement.setString(2, question.getQuestion());
-            questionStatement.setString(3, question.getDescription());
-            questionStatement.setBoolean(4, question.getMultiple_correct_answers());
-            questionStatement.setString(5, question.getCorrect_answer());
-            questionStatement.setString(6, question.getExplanation());
-            questionStatement.setString(7, question.getTip());
-            questionStatement.setString(8, question.getCategory());
-            questionStatement.setString(9, question.getDifficulty());
-             
 
-            questionStatement.setInt(10, new AnswersDAOimp().insertAnswers(question.getAnswers())); //? answers_id
-            questionStatement.setInt(11, new CorrectAnswersDAOimp().insertCorrectAnswers(question.getCorrect_answers())); //? correct_answers_id
-            questionStatement.setInt(12, new TagDAOimp().insertTag(new Tag(question.getTags().getFirst().getName()))); //? tag_id
-
-            questionStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        return -1;
     }
     
     
@@ -125,6 +137,14 @@ public class QuestionDAOimp implements QuestionDAO{
         }
 
         catch (SQLException e) {
+
+            //? If resultSet.next() returns false, we catch the SQLException and check if the SQL state is S1000, which is commonly used to indicate that no rows were returned.
+
+            if ("S1000".equals(e.getSQLState())) {
+                // No rows were returned, so the ID does not exist in the database
+                // Return null to indicate that the question was not found
+                return null;
+            }
             e.printStackTrace();
         }
 
