@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.paint.LinearGradient?>
 <?import javafx.scene.paint.Stop?>
@@ -11,8 +13,8 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.qcmpro.HomeController">
    <children>
-      <ChoiceBox fx:id="category" layoutX="203.0" layoutY="129.0" prefHeight="33.0" prefWidth="193.0" />
-      <Text layoutX="261.0" layoutY="110.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Category" wrappingWidth="77.45819091796875">
+      <ChoiceBox fx:id="category" layoutX="333.0" layoutY="115.0" prefHeight="33.0" prefWidth="193.0" />
+      <Text layoutX="229.0" layoutY="139.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Category" wrappingWidth="77.45819091796875">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
@@ -26,14 +28,14 @@
                   </Stop>
                   <Stop offset="1.0">
                      <color>
-                        <Color red="0.8313725590705872" green="0.05882352963089943" blue="0.05882352963089943" />
+                        <Color red="0.14245614409446716" green="0.14245614409446716" blue="0.3052631616592407" />
                      </color>
                   </Stop>
                </stops>
             </LinearGradient>
          </fill>
       </Text>
-      <Text layoutX="262.0" layoutY="207.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Difficulty">
+      <Text layoutX="228.0" layoutY="195.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Difficulty">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
@@ -47,34 +49,28 @@
                   </Stop>
                   <Stop offset="1.0">
                      <color>
-                        <Color red="0.8313725590705872" green="0.05882352963089943" blue="0.05882352963089943" />
+                        <Color red="0.1315789520740509" green="0.1315789520740509" blue="0.28421053290367126" />
                      </color>
                   </Stop>
                </stops>
             </LinearGradient>
          </fill>
       </Text>
-      <ChoiceBox fx:id="difficulty" layoutX="203.0" layoutY="225.0" prefHeight="34.0" prefWidth="194.0" />
-      <Button fx:id="startButton" layoutX="256.0" layoutY="295.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="86.0" text="Start" onAction="#handlestartButtonAction">
+      <ChoiceBox fx:id="difficulty" layoutX="333.0" layoutY="171.0" prefHeight="34.0" prefWidth="194.0" />
+      <Button fx:id="startButton" layoutX="333.0" layoutY="223.0" mnemonicParsing="false" onAction="#handlestartButtonAction" prefHeight="32.0" prefWidth="194.0" styleClass="login_container" stylesheets="@../../Styles/login.css" text="Start" textFill="WHITE">
          <font>
-            <Font name="System Bold" size="14.0" />
+            <Font name="Arial Black" size="14.0" />
          </font>
-         <textFill>
-            <LinearGradient endX="1.0" endY="1.0">
-               <stops>
-                  <Stop>
-                     <color>
-                        <Color />
-                     </color>
-                  </Stop>
-                  <Stop offset="1.0">
-                     <color>
-                        <Color red="0.8421052694320679" green="0.10916179418563843" blue="0.10916179418563843" />
-                     </color>
-                  </Stop>
-               </stops>
-            </LinearGradient>
-         </textFill>
       </Button>
+      <VBox layoutY="-4.0" prefHeight="408.0" prefWidth="187.0" styleClass="login_container" stylesheets="@../../Styles/login.css">
+         <children>
+            <FontAwesomeIconView fill="WHITE" glyphName="CHECK" size="40.0" wrappingWidth="41.600037574768066" />
+            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="login_container" text="Q.C.M">
+               <font>
+                  <Font name="Arial Black" size="37.0" />
+               </font>
+            </Text>
+         </children>
+      </VBox>
    </children>
 </AnchorPane>
