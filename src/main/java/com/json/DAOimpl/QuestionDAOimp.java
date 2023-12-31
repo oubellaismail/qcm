@@ -8,19 +8,18 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.json.model.CorrectAnswers;
-import com.json.model.Question;
-import com.json.DAO.QuestionDAO;
-import com.json.DAOimpl.AnswersDAOimp;
-import com.json.DAO.CorrectAnswersDAO;
-import com.json.DAOimpl.CorrectAnswersDAOimp;
-import com.json.DAOimpl.TagDAOimp;
-import com.json.model.Tag;
+import com.json.model.*;
+import com.json.DAOimpl.*;
+import com.json.DAO.*;
 
 public class QuestionDAOimp implements QuestionDAO{
     public String jdbcUrl = "jdbc:mysql://localhost:3306/quiz-app";
+    
     public String jdbcUser = "ismail";
     public String jdbcPassword = "just";
+
+    // public String jdbcUser = "root";
+    // public String jdbcPassword = "";
 
     //! question id will not be auto increment !
 
@@ -211,11 +210,11 @@ public class QuestionDAOimp implements QuestionDAO{
             PreparedStatement questionStatement = connection.prepareStatement(DELETE_QUESTION_SQL);
 
             Question question = findQuestion(id);
-            
-            questionStatement.setInt(1, id);
-            questionStatement.executeUpdate();
             new AnswersDAOimp().deleteAnswers(question.getAnswers().getId());
             new CorrectAnswersDAOimp().deleteCorrectAnswers(question.getCorrect_answers().getId());
+
+            questionStatement.setInt(1, id);
+            questionStatement.executeUpdate();
         }
 
         catch (SQLException e) {

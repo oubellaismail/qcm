@@ -20,18 +20,23 @@ public class QuizDAOimp implements QuizDAO {
 
 
     public String jdbcUrl = "jdbc:mysql://localhost:3306/quiz-app";
+    
     public String jdbcUser = "ismail";
     public String jdbcPassword = "just";
+    
+    
+    // public String jdbcUser = "root";
+    // public String jdbcPassword = "";
 
-    private static final String INSERT_QUIZ_SQL = "INSERT INTO Quiz " +
-        "(Q1, Q2, Q3, Q4, Q5) VALUES " +
-        "(?, ?, ?, ?, ?) ;";
+    private static final String INSERT_QUIZ_SQL = "INSERT INTO QUIZ " +
+        "(Q1, Q2, Q3, Q4, Q5, user_id) VALUES " +
+        "(?, ?, ?, ?, ?, ?) ;";
 
-    private static final String SELECT_QUIZ_BY_ID = "SELECT * FROM Quiz WHERE id = ? ;" ;
+    private static final String SELECT_QUIZ_BY_ID = "SELECT * FROM QUIZ WHERE id = ? ;" ;
 
-    private static final String SELECT_QUIZS_SQL = "SELECT * FROM Quiz ;";
+    private static final String SELECT_QUIZS_SQL = "SELECT * FROM QUIZ WHERE user_id = ? ;";
 
-    private static final String DELETE_QUIZ_SQL = "DELETE FROM Quiz WHERE id = ? ;";
+    private static final String DELETE_QUIZ_SQL = "DELETE FROM QUIZ WHERE id = ? ;";
 
     protected Connection getConnection (){
         Connection connection = null;
@@ -64,6 +69,7 @@ public class QuizDAOimp implements QuizDAO {
             quizStatement.setNull(3, java.sql.Types.INTEGER);
             quizStatement.setNull(4, java.sql.Types.INTEGER);
             quizStatement.setNull(5, java.sql.Types.INTEGER);
+            quizStatement.setInt(6, quiz.getUserId());
 
             // quizStatement.setInt(2, null);
             // quizStatement.setInt(3, null);
@@ -86,6 +92,7 @@ public class QuizDAOimp implements QuizDAO {
 
             try (ResultSet resultSet = quizStatement.executeQuery()) {
                 while (resultSet.next()) {
+                    int userId = resultSet.getInt("user_id");
                     List<Question> questionList = new ArrayList<Question>();
 
                     for (int i = 1; i <= count; i++) {
@@ -93,7 +100,7 @@ public class QuizDAOimp implements QuizDAO {
                         questionList.add(new QuestionDAOimp().findQuestion(questionId));
                     } 
 
-                    quiz = new Quiz(id, questionList);
+                    quiz = new Quiz(id, questionList, userId);
                 }
             }
 
@@ -106,10 +113,13 @@ public class QuizDAOimp implements QuizDAO {
     }
     
     @Override
-    public List<Quiz> findAll(){
+    public List<Quiz> findAll(int userId) {
         List<Quiz> quizList = new ArrayList<Quiz>();
         try (Connection connection = getConnection()) {
             PreparedStatement quizStatement = connection.prepareStatement(SELECT_QUIZS_SQL);
+
+            quizStatement.setInt(1, userId);
+
             try (ResultSet resultSet = quizStatement.executeQuery()) {
                 while (resultSet.next()) {
                     int id = resultSet.getInt("id");
@@ -119,7 +129,7 @@ public class QuizDAOimp implements QuizDAO {
                         questionList.add(new QuestionDAOimp().findQuestion(questionId));
                     } 
 
-                    quizList.add(new Quiz(id, questionList));
+                    quizList.add(new Quiz(id, questionList, userId));
                 }
             }
         } 

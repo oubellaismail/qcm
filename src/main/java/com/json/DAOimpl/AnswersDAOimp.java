@@ -11,8 +11,12 @@ import com.json.model.Answers;
 
 public class AnswersDAOimp implements AnswersDAO {
     public String jdbcUrl = "jdbc:mysql://localhost:3306/quiz-app";
+
     public String jdbcUser = "ismail";
     public String jdbcPassword = "just";
+
+    // public String jdbcUser = "root";
+    // public String jdbcPassword = "";
 
     private static final String INSERT_ANSWERS_SQL = "INSERT INTO ANSWERS " +
             "(answer_a, answer_b, answer_c, answer_d, answer_e, answer_f) VALUES " +

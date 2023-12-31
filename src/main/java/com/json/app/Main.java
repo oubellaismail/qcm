@@ -16,9 +16,10 @@ import com.json.DAOimpl.*;
 public class Main {
     public static void main(String[] args) {
 
-        int count = 0;
+        int count = 1;
         QuizDAO quizDAO = new QuizDAOimp();
         QuestionDAO questionDAO = new QuestionDAOimp();
+        UserDAO userDAO = new UserDAOimp();
 
 
         if (count == 0) {
@@ -112,7 +113,7 @@ public class Main {
             }   
         }
         else {
-            quizDAO.deleteQuiz(5);
+            userDAO.inserUser(new User("ismail.code", "ismail@mail.com", "just"));
         }
 
     }
