@@ -28,12 +28,19 @@ public class QuizController {
     private Button restart;
     @FXML
     private Button next;
+    @FXML
+    private Text category;
+    @FXML
+    private Text deff;
 
  @FXML
  private VBox checkboxContainer;
 
     private int cont = 1;
+    private int level = 3;
     private boolean isFirstClick = true;
+    private int diffCont = 0;
+
     private Map<String, Boolean> correctAnswers = new HashMap<>();
 
     @FXML
@@ -42,7 +49,7 @@ public class QuizController {
     }
     @FXML
     public void next(ActionEvent e) {
-        if (cont < 5) {
+        if (cont < level * 3) {
             if (isFirstClick) {
                 handleCheckboxSelection();
                 isFirstClick = false;
@@ -51,51 +58,67 @@ public class QuizController {
                 isFirstClick = true;
                 cont++;
             }
-        } else {
-            end();
-        }
+        } else end();
     }
+
+
+
   private void loadQuestion() {
-      try {
-          String apiUrl = "https://quizapi.io/api/v1/questions?apiKey=ktpARm1lcXvIQel8yfOQSWXLMyNe0LKLhdgpMhlG&limit=1";
-          URI uri = URI.create(apiUrl);
-          HttpClient client = HttpClient.newHttpClient();
-          HttpRequest request = HttpRequest.newBuilder(uri).GET().build();
-          HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-          String json = response.body();
-          Gson gson = new Gson();
-          Type questionListType = new TypeToken<List<Question>>() {
-          }.getType();
-          List<Question> questions = gson.fromJson(json, questionListType);
-          if (!questions.isEmpty()) {
-              String questionText = questions.get(0).getQuestion();
-              this.question.setText(questionText);
-              clearCheckboxes();
+      String difficulty = getDifficultyString();
+        try {
+            String apiUrl = "https://quizapi.io/api/v1/questions?apiKey=ktpARm1lcXvIQel8yfOQSWXLMyNe0LKLhdgpMhlG&limit=1&difficulty=" + difficulty;
 
-              // Create checkboxes for true answers
-              createCheckboxes(questions.get(0).getAnswers().getAnswer_a(), "Answer A");
-              createCheckboxes(questions.get(0).getAnswers().getAnswer_b(), "Answer B");
-              createCheckboxes(questions.get(0).getAnswers().getAnswer_c(), "Answer C");
-              createCheckboxes(questions.get(0).getAnswers().getAnswer_d(), "Answer D");
-              createCheckboxes(questions.get(0).getAnswers().getAnswer_e(), "Answer E");
-              createCheckboxes(questions.get(0).getAnswers().getAnswer_f(), "Answer F");
+            URI uri = URI.create(apiUrl);
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder(uri).GET().build();
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            String json = response.body();
+            Gson gson = new Gson();
+            Type questionListType = new TypeToken<List<Question>>() {
+            }.getType();
+            List<Question> questions = gson.fromJson(json, questionListType);
+
+            if (!questions.isEmpty()) {
+                String questionText = questions.get(0).getQuestion();
+                this.question.setText(questionText);
+                clearCheckboxes();
+
+                // Create checkboxes for true answers
+                createCheckboxes(questions.get(0).getAnswers().getAnswer_a(), "Answer A");
+                createCheckboxes(questions.get(0).getAnswers().getAnswer_b(), "Answer B");
+                createCheckboxes(questions.get(0).getAnswers().getAnswer_c(), "Answer C");
+                createCheckboxes(questions.get(0).getAnswers().getAnswer_d(), "Answer D");
+                createCheckboxes(questions.get(0).getAnswers().getAnswer_e(), "Answer E");
+                createCheckboxes(questions.get(0).getAnswers().getAnswer_f(), "Answer F");
 
 
-              correctAnswers.clear();
-              correctAnswers.put("Answer A", questions.get(0).getCorrect_answers().getAnswer_a_correct());
-              correctAnswers.put("Answer B", questions.get(0).getCorrect_answers().getAnswer_b_correct());
-              correctAnswers.put("Answer C", questions.get(0).getCorrect_answers().getAnswer_c_correct());
-              correctAnswers.put("Answer D", questions.get(0).getCorrect_answers().getAnswer_d_correct());
-              correctAnswers.put("Answer E", questions.get(0).getCorrect_answers().getAnswer_e_correct());
-              correctAnswers.put("Answer F", questions.get(0).getCorrect_answers().getAnswer_f_correct());
+                correctAnswers.clear();
+                correctAnswers.put("Answer A", questions.get(0).getCorrect_answers().getAnswer_a_correct());
+                correctAnswers.put("Answer B", questions.get(0).getCorrect_answers().getAnswer_b_correct());
+                correctAnswers.put("Answer C", questions.get(0).getCorrect_answers().getAnswer_c_correct());
+                correctAnswers.put("Answer D", questions.get(0).getCorrect_answers().getAnswer_d_correct());
+                correctAnswers.put("Answer E", questions.get(0).getCorrect_answers().getAnswer_e_correct());
+                correctAnswers.put("Answer F", questions.get(0).getCorrect_answers().getAnswer_f_correct());
 
-          } else {
-              this.question.setText("No questions available");
-          }
-      } catch (Exception e) {
-          e.printStackTrace();
-      }
-  }
+                category.setText(questions.get(0).getDifficulty());
+                deff.setText("Level: "+ level);
+                if (diffCont < 3) diffCont++;
+
+            } else {
+                this.question.setText("No questions available");
+            }
+            } catch(Exception e){
+                e.printStackTrace();
+            }
+
+        }
+
+    private String getDifficultyString() {
+        if (diffCont >= 3) diffCont=0;
+        String[] difficulties = {"easy", "medium", "hard"};
+        return difficulties[diffCont];
+    }
+
 
 
     private void handleCheckboxSelection() {
@@ -106,9 +129,9 @@ public class QuizController {
                 String checkboxId = checkbox.getId();
 
                 if (correctAnswers.containsKey(checkboxId) && correctAnswers.get(checkboxId).equals(true)) {
-                    checkbox.setStyle("-fx-font-size: 14; -fx-background-color: green;");
-                } else {
-                    checkbox.setStyle("-fx-font-size: 14;");
+                    checkbox.setStyle("-fx-font-size: 14; -fx-text-fill: green; -fx-font-weight: bold; -fx-padding: 5;");
+                } else if (checkbox.isSelected()){
+                    checkbox.setStyle("-fx-font-size: 14;-fx-text-fill: red; -fx-font-weight: bold; -fx-padding: 5;");
                 }
             }
         }
@@ -123,20 +146,20 @@ public class QuizController {
             newCheckbox.setId(id); // Set the ID
             newCheckbox.setPrefHeight(100);
             newCheckbox.setPrefWidth(500);
-            newCheckbox.setStyle("-fx-font-size: 14; -fx-padding: 5;");
+            newCheckbox.setStyle("-fx-font-size: 14; -fx-padding: 5; -fx-font-weight: bold;");
             checkboxContainer.getChildren().add(newCheckbox);
         }
     }
 
     private void end(){
-        question.setVisible(false);
-        checkboxContainer.setVisible(false);
+        handleCheckboxSelection();
         restart.setVisible(true);
         next.setVisible(false);
     }
     @FXML
     private  void restart(ActionEvent e){
         cont = 1;
+        loadQuestion();
         question.setVisible(true);
         checkboxContainer.setVisible(true);
         restart.setVisible(false);

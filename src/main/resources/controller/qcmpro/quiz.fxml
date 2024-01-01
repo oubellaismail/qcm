@@ -12,12 +12,12 @@
    <children>
       <Pane layoutX="154.0" prefHeight="600.0" prefWidth="746.0">
          <children>
-            <Text fx:id="question" layoutX="63.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="668.0101928710938">
+            <Text fx:id="question" fill="#100a6b" layoutX="63.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="668.0101928710938">
                <font>
-                  <Font size="24.0" />
+                  <Font name="System Bold" size="26.0" />
                </font>
             </Text>
-            <Button fx:id="next" layoutX="546.0" layoutY="498.0" mnemonicParsing="false" onAction="#next" prefHeight="38.0" prefWidth="140.0" text="Suivant">
+            <Button fx:id="next" layoutX="404.0" layoutY="504.0" mnemonicParsing="false" onAction="#next" prefHeight="32.0" prefWidth="140.0" text="Next">
                <font>
                   <Font size="24.0" />
                </font>
@@ -32,6 +32,18 @@
             <Button fx:id="restart" layoutX="550.0" layoutY="498.0" mnemonicParsing="false" onAction="#restart" prefHeight="38.0" prefWidth="132.0" text="restart" visible="false" />
          </children>
       </Pane>
-      <Pane prefHeight="600.0" prefWidth="200.0" styleClass="login_container" stylesheets="@../../Styles/login.css" />
+      <Pane prefHeight="600.0" prefWidth="200.0" styleClass="login_container" stylesheets="@../../Styles/login.css">
+         <children>
+            <Text fx:id="category" fill="WHITE" layoutX="26.0" layoutY="339.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="148.01012420654297">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Text>
+            <Text fx:id="deff" fill="WHITE" layoutX="6.0" layoutY="312.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="187.9999694824221">
+               <font>
+                  <Font name="Arial Bold" size="36.0" />
+               </font>
+            </Text>
+         </children></Pane>
    </children>
 </AnchorPane>
