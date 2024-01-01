@@ -5,6 +5,7 @@ import com.google.gson.reflect.TypeToken;
 import com.json.model.Question;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.layout.VBox;
@@ -15,7 +16,9 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class QuizController {
 
@@ -29,18 +32,26 @@ public class QuizController {
  @FXML
  private VBox checkboxContainer;
 
- private int cont = 1;
+    private int cont = 1;
+    private boolean isFirstClick = true;
+    private Map<String, Boolean> correctAnswers = new HashMap<>();
+
     @FXML
     private void initialize() {
         loadQuestion();
     }
     @FXML
-    public void next(ActionEvent e){
-        if(cont < 5) {
-            loadQuestion();
-            cont++;
-        }
-        else {
+    public void next(ActionEvent e) {
+        if (cont < 5) {
+            if (isFirstClick) {
+                handleCheckboxSelection();
+                isFirstClick = false;
+            } else {
+                loadQuestion();
+                isFirstClick = true;
+                cont++;
+            }
+        } else {
             end();
         }
     }
@@ -62,12 +73,21 @@ public class QuizController {
               clearCheckboxes();
 
               // Create checkboxes for true answers
-              createCheckboxes(questions.get(0).getAnswers().getAnswer_a());
-              createCheckboxes(questions.get(0).getAnswers().getAnswer_b());
-              createCheckboxes(questions.get(0).getAnswers().getAnswer_c());
-              createCheckboxes(questions.get(0).getAnswers().getAnswer_d());
-              createCheckboxes(questions.get(0).getAnswers().getAnswer_e());
-              createCheckboxes(questions.get(0).getAnswers().getAnswer_f());
+              createCheckboxes(questions.get(0).getAnswers().getAnswer_a(), "Answer A");
+              createCheckboxes(questions.get(0).getAnswers().getAnswer_b(), "Answer B");
+              createCheckboxes(questions.get(0).getAnswers().getAnswer_c(), "Answer C");
+              createCheckboxes(questions.get(0).getAnswers().getAnswer_d(), "Answer D");
+              createCheckboxes(questions.get(0).getAnswers().getAnswer_e(), "Answer E");
+              createCheckboxes(questions.get(0).getAnswers().getAnswer_f(), "Answer F");
+
+
+              correctAnswers.clear();
+              correctAnswers.put("Answer A", questions.get(0).getCorrect_answers().getAnswer_a_correct());
+              correctAnswers.put("Answer B", questions.get(0).getCorrect_answers().getAnswer_b_correct());
+              correctAnswers.put("Answer C", questions.get(0).getCorrect_answers().getAnswer_c_correct());
+              correctAnswers.put("Answer D", questions.get(0).getCorrect_answers().getAnswer_d_correct());
+              correctAnswers.put("Answer E", questions.get(0).getCorrect_answers().getAnswer_e_correct());
+              correctAnswers.put("Answer F", questions.get(0).getCorrect_answers().getAnswer_f_correct());
 
           } else {
               this.question.setText("No questions available");
@@ -76,15 +96,34 @@ public class QuizController {
           e.printStackTrace();
       }
   }
+
+
+    private void handleCheckboxSelection() {
+        // Your existing logic for handling checkbox selection
+        for (Node node : checkboxContainer.getChildren()) {
+            if (node instanceof CheckBox) {
+                CheckBox checkbox = (CheckBox) node;
+                String checkboxId = checkbox.getId();
+
+                if (correctAnswers.containsKey(checkboxId) && correctAnswers.get(checkboxId).equals(true)) {
+                    checkbox.setStyle("-fx-font-size: 14; -fx-background-color: green;");
+                } else {
+                    checkbox.setStyle("-fx-font-size: 14;");
+                }
+            }
+        }
+    }
     private void clearCheckboxes() {
         checkboxContainer.getChildren().clear();
     }
 
-    private void createCheckboxes(String answer) {
-        if (answer != null){
+    private void createCheckboxes(String answer, String id) {
+        if (answer != null) {
             CheckBox newCheckbox = new CheckBox(answer);
-            newCheckbox.setPrefHeight(200);
-            newCheckbox.setStyle("-fx-font-size: 14;");
+            newCheckbox.setId(id); // Set the ID
+            newCheckbox.setPrefHeight(100);
+            newCheckbox.setPrefWidth(500);
+            newCheckbox.setStyle("-fx-font-size: 14; -fx-padding: 5;");
             checkboxContainer.getChildren().add(newCheckbox);
         }
     }
