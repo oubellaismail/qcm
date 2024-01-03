@@ -11,14 +11,9 @@ import com.json.model.Tag;
 
 public class TagDAOimp implements TagDAO {
     public String jdbcUrl = "jdbc:mysql://localhost:3306/quiz-app";
-<<<<<<< HEAD
-    public String jdbcUser = "root";
-    public String jdbcPassword = "";
-=======
 
     public String jdbcUser = "ismail";
     public String jdbcPassword = "just";
->>>>>>> api/apdate
 
     // public String jdbcUser = "root";
     // public String jdbcPassword = "";

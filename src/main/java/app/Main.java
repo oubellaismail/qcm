@@ -5,9 +5,6 @@ package app;//
 
 import java.util.List;
 
-import DAO.StudentDAO;
-import model.Student;
-
 public class Main {
     public static void main(String[] args) {
         // StudentDAO studentDAO = new StudentDAOimpl();
