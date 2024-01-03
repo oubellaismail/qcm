@@ -18,7 +18,7 @@
                   <Font name="System Bold" size="26.0" />
                </font>
             </Text>
-            <Button fx:id="next" layoutX="521.0" layoutY="504.0" minHeight="18.0" mnemonicParsing="false" onAction="#next" prefHeight="32.0" prefWidth="140.0" text="Next" textAlignment="CENTER">
+            <Button fx:id="next" layoutX="394.0" layoutY="501.0" minHeight="18.0" mnemonicParsing="false" onAction="#next" prefHeight="32.0" prefWidth="140.0" text="Next" textAlignment="CENTER">
                <font>
                   <Font name="Arial Bold" size="18.0" />
                </font>
@@ -30,7 +30,7 @@
                <padding>
                   <Insets top="30.0" />
                </padding></VBox>
-            <Button fx:id="restart" layoutX="550.0" layoutY="498.0" mnemonicParsing="false" onAction="#restart" prefHeight="38.0" prefWidth="132.0" text="restart" visible="false" />
+            <Button fx:id="restart" layoutX="550.0" layoutY="498.0" mnemonicParsing="false" onAction="#redirectToHomePage" prefHeight="38.0" prefWidth="132.0" text="Home" visible="false" />
             <Text fx:id="categories" fill="#7f0281" layoutX="127.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="442.39993286132835">
                <font>
                   <Font name="Arial Bold" size="24.0" />

@@ -196,18 +196,21 @@ public class QuizController {
 
     }
     @FXML
-    private  void restart(){
-        cont = 1;
-        loadQuestion();
-        question.setVisible(true);
-        checkboxContainer.setVisible(true);
-        difficulties.setVisible(true);
-        levels.setVisible(true);
-        categories.setVisible(true);
-        restart.setVisible(false);
-        next.setVisible(true);
+    private void redirectToHomePage() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(QuizApp.class.getResource("home-view.fxml"));
+            Parent root = fxmlLoader.load();
+            HomeController homeController = fxmlLoader.getController();
+            homeController.initData(user);
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) restart.getScene().getWindow();
+            stage.setTitle("Quiz Application");
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
-
     private void redirectToUserView() {
         // Add logic to redirect to the user view
         // You can use FXMLLoader to load the user view FXML and switch scenes, for example.

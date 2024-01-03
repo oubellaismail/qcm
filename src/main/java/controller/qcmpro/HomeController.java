@@ -24,10 +24,16 @@ public class HomeController {
     private Text userName;
     @FXML
     private Text levels;
+    @FXML
+    private Button Historique;
     private User user;
     @FXML
     private void handlestartButtonAction() {
         redirectToQuizPage(user);
+    }
+    @FXML
+    private void handleHistoButtonAction() {
+        redirectToHistoPage(user);
     }
 
 
@@ -44,6 +50,22 @@ public class HomeController {
             Scene scene = new Scene(root);
             QuizController quizController = loader.getController();
             quizController.initData(user);
+            Stage stage = (Stage) startButton.getScene().getWindow();
+            stage.setScene(scene);
+            stage.setTitle("Quiz");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void redirectToHistoPage(User user) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("hesto.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            HestoController hestoController = loader.getController();
+            hestoController.initData(user);
             Stage stage = (Stage) startButton.getScene().getWindow();
             stage.setScene(scene);
             stage.setTitle("Quiz");

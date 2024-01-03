@@ -9,16 +9,16 @@
 
 <AnchorPane prefHeight="448.0" prefWidth="795.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.qcmpro.HomeController">
    <children>
-      <Button fx:id="startButton" layoutX="397.0" layoutY="209.0" mnemonicParsing="false" onAction="#handlestartButtonAction" prefHeight="64.0" prefWidth="261.0" styleClass="login_container" stylesheets="@../../Styles/login.css" text="Start New Q.C.M" textFill="WHITE">
+      <Button fx:id="startButton" layoutX="397.0" layoutY="177.0" mnemonicParsing="false" onAction="#handlestartButtonAction" prefHeight="64.0" prefWidth="261.0" styleClass="login_container" stylesheets="@../../Styles/login.css" text="Start New Q.C.M" textFill="WHITE">
          <font>
             <Font name="Arial Black" size="14.0" />
          </font>
       </Button>
       <Pane prefHeight="482.0" prefWidth="242.0" styleClass="login_container" stylesheets="@../../Styles/login.css">
          <children>
-            <Text fx:id="levels" fill="WHITE" layoutX="11.0" layoutY="269.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="219.99996337890633">
+            <Text fx:id="levels" fill="WHITE" layoutX="67.0" layoutY="249.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="163.19997558593758">
                <font>
-                  <Font name="Arial Bold" size="31.0" />
+                  <Font name="Arial Bold" size="24.0" />
                </font>
             </Text>
             <Text fx:id="userName" fill="WHITE" layoutX="60.0" layoutY="222.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="178.40001926422127">
@@ -35,5 +35,10 @@
             </Text>
          </children>
       </Pane>
+      <Button fx:id="Historique" layoutX="397.0" layoutY="253.0" mnemonicParsing="false" onAction="#handleHistoButtonAction" prefHeight="64.0" prefWidth="261.0" styleClass="login_container" stylesheets="@../../Styles/login.css" text="Historique" textFill="WHITE">
+         <font>
+            <Font name="Arial Black" size="14.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>
