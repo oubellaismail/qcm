@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -46,9 +47,15 @@
             </Text>
             <Text fx:id="levels" fill="WHITE" layoutY="147.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="241.60000000000008">
                <font>
+                  <Font name="Arial Bold" size="31.0" />
+               </font>
+            </Text>
+            <Text fx:id="userName" fill="WHITE" layoutX="47.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="185.6000009536744">
+               <font>
                   <Font name="Arial Bold" size="36.0" />
                </font>
             </Text>
+            <FontAwesomeIconView fx:id="userManage" fill="WHITE" glyphName="USER" layoutX="14.0" layoutY="48.0" selectionFill="#c72929" size="40.0" wrappingWidth="33.0" />
          </children>
       </Pane>
    </children>

@@ -16,11 +16,11 @@ public class QuizDAOimp implements QuizDAO {
 
     public String jdbcUrl = "jdbc:mysql://localhost:3306/quiz-app";
     
-    public String jdbcUser = "ismail";
-    public String jdbcPassword = "just";
+//    public String jdbcUser = "ismail";
+//    public String jdbcPassword = "just";
 
-    // public String jdbcUser = "root";
-    // public String jdbcPassword = "";
+     public String jdbcUser = "root";
+     public String jdbcPassword = "";
     
     private static final String INSERT_QUIZ_SQL = "INSERT INTO QUIZ " +
         "(user_id) VALUES " +
@@ -149,8 +149,7 @@ public class QuizDAOimp implements QuizDAO {
                     quizList.add(findQuiz(resultSet.getInt("id")));
                 }
             }
-        } 
-        
+        }
         catch (Exception e) {
             e.printStackTrace();
         }

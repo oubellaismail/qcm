@@ -4,10 +4,9 @@ module controller.qcmpro {
     requires java.sql;
     requires com.google.gson;
     requires java.net.http;
+    requires de.jensd.fx.glyphs.fontawesome;
 
     opens controller.qcmpro to javafx.fxml;
     opens com.json.model to com.google.gson;
-    requires com.google.gson;
-    requires java.net.http;
     exports controller.qcmpro;
 }

@@ -2,7 +2,13 @@ package controller.qcmpro;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.json.DAO.QuizDAO;
+import com.json.DAO.UserDAO;
+import com.json.DAOimpl.QuizDAOimp;
+import com.json.DAOimpl.UserDAOimp;
 import com.json.model.Question;
+import com.json.model.Quiz;
+import com.json.model.User;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -10,6 +16,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -18,10 +25,10 @@ import java.net.http.HttpResponse;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 public class QuizController {
 
- @FXML
+    @FXML
     private Text question;
     @FXML
     private Button restart;
@@ -33,25 +40,33 @@ public class QuizController {
     private Text levels;
     @FXML
     private Text categories;
-
-
- @FXML
- private VBox checkboxContainer;
-
-    private int cont = 1;
-    private final int level = 3;
-    private boolean isFirstClick = true;
-    private int diffCont = 0;
-
-    private final Map<String, Boolean> correctAnswers = new HashMap<>();
-
     @FXML
-    private void initialize() {
+    private Text userName;
+    @FXML
+    private VBox checkboxContainer;
+    @FXML
+    private FontAwesomeIconView userManage;
+    private int cont = 1;
+    private boolean isFirstClick = true;
+    private boolean levelTest = true;
+    private int diffCont = 0;
+    private final Map<String, Boolean> correctAnswers = new HashMap<>();
+    UserDAO userDAO = new UserDAOimp();
+    QuizDAO quizDAO = new QuizDAOimp();
+    private User user;
+    private  Quiz quiz;
+
+    public void initData(User u) {
+        user = u;
+        quiz = new Quiz(user.getId());
+        quizDAO.insertQuiz(quiz);
         loadQuestion();
     }
+
+
     @FXML
     public void next() {
-        if (cont < level * 3) {
+        if (cont < user.getLevel() * 3 ) {
             if (isFirstClick) {
                 handleCheckboxSelection();
                 isFirstClick = false;
@@ -64,17 +79,17 @@ public class QuizController {
     }
 
 
-
+    private String fetchDataFromAPI() throws IOException, InterruptedException {
+        String difficulty = getDifficultyString();
+        URI uri = URI.create("https://quizapi.io/api/v1/questions?apiKey=ktpARm1lcXvIQel8yfOQSWXLMyNe0LKLhdgpMhlG&limit=1&difficulty=" + difficulty);
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder(uri).GET().build();
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        return response.body();
+    }
   private void loadQuestion() {
-      String difficulty = getDifficultyString();
         try {
-            String apiUrl = "https://quizapi.io/api/v1/questions?apiKey=ktpARm1lcXvIQel8yfOQSWXLMyNe0LKLhdgpMhlG&limit=1&difficulty=" + difficulty;
-
-            URI uri = URI.create(apiUrl);
-            HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder(uri).GET().build();
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            String json = response.body();
+            String json = fetchDataFromAPI();
             Gson gson = new Gson();
             Type questionListType = new TypeToken<List<Question>>() {
             }.getType();
@@ -103,9 +118,12 @@ public class QuizController {
                 correctAnswers.put("Answer F", questions.getFirst().getCorrect_answers().getAnswer_f_correct());
 
                 difficulties.setText("Difficulty: "+ questions.getFirst().getDifficulty());
-                levels.setText("Level: "+ level);
                 categories.setText("Category: "+ questions.getFirst().getCategory());
+                userName.setText(user.getuserName());
+                levels.setText("Level : "+ user.getLevel());
                 if (diffCont < 3) diffCont++;
+
+
 
             } else {
                 this.question.setText("No questions available");
@@ -129,11 +147,11 @@ public class QuizController {
         for (Node node : checkboxContainer.getChildren()) {
             if (node instanceof CheckBox checkbox) {
                 String checkboxId = checkbox.getId();
-
                 if (correctAnswers.containsKey(checkboxId) && correctAnswers.get(checkboxId).equals(true)) {
                     checkbox.setStyle("-fx-font-size: 14; -fx-text-fill: green; -fx-font-weight: bold; -fx-padding: 5;");
                 } else if (checkbox.isSelected()){
                     checkbox.setStyle("-fx-font-size: 14;-fx-text-fill: red; -fx-font-weight: bold; -fx-padding: 5;");
+                    levelTest = false;
                 }
             }
         }
@@ -141,7 +159,6 @@ public class QuizController {
     private void clearCheckboxes() {
         checkboxContainer.getChildren().clear();
     }
-
     private void createCheckboxes(String answer, String id) {
         if (answer != null) {
             CheckBox newCheckbox = new CheckBox(answer);
@@ -152,16 +169,22 @@ public class QuizController {
             checkboxContainer.getChildren().add(newCheckbox);
         }
     }
-
     private void end(){
         handleCheckboxSelection();
         restart.setVisible(true);
-        question.setVisible(false);
-        difficulties.setVisible(false);
-        levels.setVisible(false);
-        categories.setVisible(false);
-        checkboxContainer.setVisible(false);
+//        question.setVisible(false);
+//        difficulties.setVisible(false);
+//        levels.setVisible(false);
+//        categories.setVisible(false);
+//        checkboxContainer.setVisible(false);
         next.setVisible(false);
+        if (levelTest){
+            int updatedLevel = user.getLevel() + 1;
+            user.setLevel(updatedLevel);
+            userDAO.updateUser(user);
+        }
+        else levelTest = true;
+
     }
     @FXML
     private  void restart(){

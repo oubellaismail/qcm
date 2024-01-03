@@ -46,11 +46,7 @@
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="451.0" prefWidth="640.0" VBox.vgrow="ALWAYS">
       <children>
-            <TextField fx:id="firstNameField" layoutX="230.0" layoutY="66.0" prefHeight="30.0" prefWidth="378.0" promptText="First name">
-               <font>
-                  <Font size="14.0" />
-               </font></TextField>
-            <TextField fx:id="lastNameField" layoutX="230.0" layoutY="136.0" prefHeight="30.0" prefWidth="378.0" promptText="Last name">
+            <TextField fx:id="userName" layoutX="230.0" layoutY="66.0" prefHeight="30.0" prefWidth="378.0" promptText="First name">
                <font>
                   <Font size="14.0" />
                </font></TextField>

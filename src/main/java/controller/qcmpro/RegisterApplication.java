@@ -1,7 +1,6 @@
 package controller.qcmpro;
 
-import DAO.PersonDAO;
-import DAOimplementation.PersonDAOimpl;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

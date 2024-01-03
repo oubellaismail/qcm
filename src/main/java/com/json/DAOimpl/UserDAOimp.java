@@ -13,11 +13,11 @@ import com.json.DAOimpl.*;
 public class UserDAOimp implements UserDAO {
     public String jdbcUrl = "jdbc:mysql://localhost:3306/quiz-app";
 
-    public String jdbcUser = "ismail";
-    public String jdbcPassword = "just";
+//    public String jdbcUser = "ismail";
+//    public String jdbcPassword = "just";
 
-    // public String jdbcUser = "root";
-    // public String jdbcPassword = "";
+     public String jdbcUser = "root";
+     public String jdbcPassword = "";
 
     private static final String INSERT_USER_SQL = "INSERT INTO USERS " +
             "(userName, email, password) VALUES " +
@@ -25,7 +25,7 @@ public class UserDAOimp implements UserDAO {
 
     private static final String SELECT_USER_BY_EMAIL_PASSWORD = "SELECT * FROM USERS WHERE email = ? and password = ? ;";
 
-    private static final String UPDATE_USER_SQL = "UPDATE USERS SET userNmae = ?, email = ?, password = ?, level =? WHERE id = ?;";
+    private static final String UPDATE_USER_SQL = "UPDATE USERS SET userName = ?, email = ?, password = ?, level =? WHERE id = ?;";
 
     private static final String DELETE_USER_SQL = "DELETE FROM USERS WHERE id = ? ;";
 
@@ -95,7 +95,6 @@ public class UserDAOimp implements UserDAO {
             userStatement.setString(2, user.getEmail());
             userStatement.setString(3, user.getPassword());
             userStatement.setInt(4, user.getLevel());
-
             userStatement.setInt(5, user.getId());
             userStatement.executeUpdate();
         }

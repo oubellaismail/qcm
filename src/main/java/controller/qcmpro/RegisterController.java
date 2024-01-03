@@ -1,7 +1,9 @@
 package controller.qcmpro;
 
-import DAO.PersonDAO;
-import DAOimplementation.PersonDAOimpl;
+
+import com.json.DAO.UserDAO;
+import com.json.DAOimpl.UserDAOimp;
+import com.json.model.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -10,24 +12,18 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import model.Person;
+
 
 import java.io.IOException;
 
 public class RegisterController {
 
     @FXML
-    private TextField firstNameField;
-
-    @FXML
-    private TextField lastNameField;
-
+    private TextField userName;
     @FXML
     private TextField emailField;
-
     @FXML
     private TextField passwordField;
-
     @FXML
     private Button registerButton;
     @FXML
@@ -39,19 +35,16 @@ public class RegisterController {
     public void setLoginButtonActionHandler() {
         loginButton.setOnAction(event -> redirectToLoginPage());
     }
-    PersonDAO personDAO = new PersonDAOimpl();
+    UserDAO userDAO = new UserDAOimp();
 
     @FXML
     private void handleRegisterButtonAction() {
-        if(firstNameField.getText().equals("") || lastNameField.getText().equals("") || emailField.getText().equals("") ||passwordField.getText().equals("")){
-
+        if(userName.getText().equals("") || emailField.getText().equals("") ||passwordField.getText().equals("")){
             String s = "Path: " + getClass().getResource("/controller.qcmpro/login-view.fxml");
             showErrorAlert(s);
 
         }else {
-        PersonDAO personDAO = new PersonDAOimpl();
-        Person person = new Person(43,firstNameField.getText(), lastNameField.getText(), emailField.getText(), passwordField.getText());
-        personDAO.insertPerson(person);
+            userDAO.inserUser(new User(userName.getText(), emailField.getText(), passwordField.getText()));
         redirectToLoginPage();
     }
     }
