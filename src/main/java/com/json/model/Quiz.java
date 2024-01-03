@@ -4,18 +4,20 @@ import java.util.Objects;
 public class Quiz {
     private int id;
     private List<Question> questions;
+    private int userId;
 
     public Quiz() {
     }
 
-
-    public Quiz(List<Question> questions) {
-        this.questions = questions;
+    public Quiz(int userId) {
+        this.userId = userId;
+        this.questions = new ArrayList<Question>();
     }
-
-    public Quiz(int id, List<Question> questions) {
+    
+    public Quiz(int id, List<Question> questions, int userId) {
         this.id = id;
         this.questions = questions;
+        this.userId = userId;
     }
 
     public int getId() {
@@ -34,6 +36,14 @@ public class Quiz {
         this.questions = questions;
     }
 
+    public int getUserId() {
+        return this.userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
     public Quiz id(int id) {
         setId(id);
         return this;
@@ -41,6 +51,11 @@ public class Quiz {
 
     public Quiz questions(List<Question> questions) {
         setQuestions(questions);
+        return this;
+    }
+
+    public Quiz userId(int userId) {
+        setUserId(userId);
         return this;
     }
 
@@ -52,12 +67,12 @@ public class Quiz {
             return false;
         }
         Quiz quiz = (Quiz) o;
-        return id == quiz.id && Objects.equals(questions, quiz.questions);
+        return id == quiz.id && Objects.equals(questions, quiz.questions) && userId == quiz.userId;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, questions);
+        return Objects.hash(id, questions, userId);
     }
 
     @Override
@@ -65,7 +80,9 @@ public class Quiz {
         return "{" +
             " id='" + getId() + "'" +
             ", questions='" + getQuestions() + "'" +
+            ", userId='" + getUserId() + "'" +
             "}";
     }
+
     
 }
