@@ -158,6 +158,11 @@ public class QuizController {
     private void end(){
         handleCheckboxSelection();
         restart.setVisible(true);
+        question.setVisible(false);
+        difficulties.setVisible(false);
+        levels.setVisible(false);
+        categories.setVisible(false);
+        checkboxContainer.setVisible(false);
         next.setVisible(false);
     }
     @FXML
@@ -166,6 +171,9 @@ public class QuizController {
         loadQuestion();
         question.setVisible(true);
         checkboxContainer.setVisible(true);
+        difficulties.setVisible(true);
+        levels.setVisible(true);
+        categories.setVisible(true);
         restart.setVisible(false);
         next.setVisible(true);
     }
