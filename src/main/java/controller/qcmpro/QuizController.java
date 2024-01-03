@@ -29,9 +29,12 @@ public class QuizController {
     @FXML
     private Button next;
     @FXML
-    private Text category;
+    private Text difficulties;
     @FXML
-    private Text deff;
+    private Text levels;
+    @FXML
+    private Text categories;
+
 
  @FXML
  private VBox checkboxContainer;
@@ -100,8 +103,9 @@ public class QuizController {
                 correctAnswers.put("Answer E", questions.get(0).getCorrect_answers().getAnswer_e_correct());
                 correctAnswers.put("Answer F", questions.get(0).getCorrect_answers().getAnswer_f_correct());
 
-                category.setText(questions.get(0).getDifficulty());
-                deff.setText("Level: "+ level);
+                difficulties.setText("Difficulty: "+ questions.get(0).getDifficulty());
+                levels.setText("Level: "+ level);
+                categories.setText("Category: "+ questions.get(0).getCategory());
                 if (diffCont < 3) diffCont++;
 
             } else {

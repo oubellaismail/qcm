@@ -10,19 +10,19 @@
 
 <AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.qcmpro.QuizController">
    <children>
-      <Pane layoutX="154.0" prefHeight="600.0" prefWidth="746.0">
+      <Pane layoutX="231.0" prefHeight="600.0" prefWidth="690.0">
          <children>
-            <Text fx:id="question" fill="#100a6b" layoutX="63.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="668.0101928710938">
+            <Text fx:id="question" fill="#100a6b" layoutX="14.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="668.8000854492188">
                <font>
                   <Font name="System Bold" size="26.0" />
                </font>
             </Text>
-            <Button fx:id="next" layoutX="404.0" layoutY="504.0" mnemonicParsing="false" onAction="#next" prefHeight="32.0" prefWidth="140.0" text="Next">
+            <Button fx:id="next" layoutX="521.0" layoutY="504.0" minHeight="18.0" mnemonicParsing="false" onAction="#next" prefHeight="32.0" prefWidth="140.0" text="Next" textAlignment="CENTER">
                <font>
-                  <Font size="24.0" />
+                  <Font name="Arial Bold" size="18.0" />
                </font>
             </Button>
-            <VBox fx:id="checkboxContainer" layoutX="76.0" layoutY="200.0" prefHeight="274.0" prefWidth="632.0" spacing="10.0">
+            <VBox fx:id="checkboxContainer" layoutX="29.0" layoutY="194.0" prefHeight="274.0" prefWidth="632.0" spacing="10.0">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -30,20 +30,26 @@
                   <Insets top="30.0" />
                </padding></VBox>
             <Button fx:id="restart" layoutX="550.0" layoutY="498.0" mnemonicParsing="false" onAction="#restart" prefHeight="38.0" prefWidth="132.0" text="restart" visible="false" />
-         </children>
-      </Pane>
-      <Pane prefHeight="600.0" prefWidth="200.0" styleClass="login_container" stylesheets="@../../Styles/login.css">
-         <children>
-            <Text fx:id="category" fill="WHITE" layoutX="26.0" layoutY="339.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="148.01012420654297">
+            <Text fx:id="categories" fill="#7f0281" layoutX="127.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="442.39993286132835">
                <font>
-                  <Font name="System Bold" size="18.0" />
+                  <Font name="Arial Bold" size="24.0" />
                </font>
             </Text>
-            <Text fx:id="deff" fill="WHITE" layoutX="6.0" layoutY="312.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="187.9999694824221">
+         </children>
+      </Pane>
+      <Pane prefHeight="600.0" prefWidth="241.0" styleClass="login_container" stylesheets="@../../Styles/login.css">
+         <children>
+            <Text fx:id="difficulties" fill="WHITE" layoutY="233.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="241.5999999999999">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Text>
+            <Text fx:id="levels" fill="WHITE" layoutY="147.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="241.60000000000008">
                <font>
                   <Font name="Arial Bold" size="36.0" />
                </font>
             </Text>
-         </children></Pane>
+         </children>
+      </Pane>
    </children>
 </AnchorPane>
