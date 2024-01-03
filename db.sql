@@ -1,37 +1,8 @@
 --! Create db
 
-CREATE DATABASE JavaQuiz;
+CREATE DATABASE quiz-app;
 
-USE quiz;
-
---! Create the  tables
-
-CREATE TABLE Persons (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    firstName VARCHAR(255) NOT NULL,
-    lastName VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL,
-    password VARCHAR(255) NOT NULL
-);
-
-
-CREATE TABLE Professors (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    personId INT NOT NULL,
-    FOREIGN KEY (personId) REFERENCES Persons(id)
-);
-
-CREATE TABLE Students (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    personId INT NOT NULL,
-    FOREIGN KEY (personId) REFERENCES Persons(id)
-);
-
-
-
-
------------------------------------------------------------------------------------
-
+USE quiz-app;
 
 CREATE TABLE CORRECT_ANSWERS (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -92,17 +63,16 @@ CREATE TABLE QUESTION (
 
 CREATE TABLE QUIZ (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    Q1 INT,
-    Q2 INT,
-    Q3 INT,
-    Q4 INT,
-    Q5 INT,
     user_id INT,
-    FOREIGN KEY (Q1) REFERENCES QUESTION(id),
-    FOREIGN KEY (Q2) REFERENCES QUESTION(id),
-    FOREIGN KEY (Q3) REFERENCES QUESTION(id),
-    FOREIGN KEY (Q4) REFERENCES QUESTION(id),
-    FOREIGN KEY (Q5) REFERENCES QUESTION(id),
     FOREIGN KEY (user_id) REFERENCES USERS(id)
 );
+
+CREATE TABLE question_quiz (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    question_id INT,
+    quiz_id INT,
+    FOREIGN KEY (question_id) REFERENCES QUESTION(id),
+    FOREIGN KEY (quiz_id) REFERENCES QUIZ(id)
+);
+
 

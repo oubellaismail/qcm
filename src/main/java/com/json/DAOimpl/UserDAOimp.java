@@ -64,7 +64,7 @@ public class UserDAOimp implements UserDAO {
 
     public User findUser(User user) {
         try (Connection connection = getConnection()) {
-            PreparedStatement userStatement = connection.prepareStatement(INSERT_USER_SQL);
+            PreparedStatement userStatement = connection.prepareStatement(SELECT_USER_BY_EMAIL_PASSWORD);
 
             userStatement.setString(1, user.getEmail());
             userStatement.setString(2, user.getPassword());
@@ -72,7 +72,7 @@ public class UserDAOimp implements UserDAO {
             try (ResultSet resultSet = userStatement.executeQuery()){
                 while (resultSet.next()) {
                     user.setId(resultSet.getInt("id"));
-                    user.setuserName(resultSet.getString("useName"));
+                    user.setuserName(resultSet.getString("userName"));
                     user.setLevel(resultSet.getInt("level"));
 
                     return user;
