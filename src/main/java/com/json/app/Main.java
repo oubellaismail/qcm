@@ -19,8 +19,7 @@ public class Main {
         QuizDAO quizDAO = new QuizDAOimp();
         UserDAO userDAO = new UserDAOimp();
         User user = userDAO.findUser(new User("ismail@mail.com", "just"));
-
-        if (user != null) {
+        if (user == null) {
             try {
                 CombinedQuestionResponse combinedResponse = new CombinedQuestionResponse();
 
@@ -58,7 +57,8 @@ public class Main {
                 e.printStackTrace();
             }
         } else {
-            System.out.println("User not found.");
+            // System.out.println("User not found.");
+            System.out.println(quizDAO.findQuiz(4));
         }
     }
 }

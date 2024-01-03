@@ -8,8 +8,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.naming.spi.DirStateFactory.Result;
-
 import com.json.DAO.*;
 import com.json.model.*;
 import com.json.DAOimpl.*;
@@ -36,8 +34,10 @@ public class QuizDAOimp implements QuizDAO {
         "(question_id, quiz_id) VALUES " +
         "(?, ?) ;" ;
 
-    private static final String SELECT_QUIZ_ID_QUESTION_QUIZ = "SELECT question_id FROM question_quiz WHERE" +
+    private static final String SELECT_QUIZ_ID_QUESTION_QUIZ = "SELECT question_id FROM question_quiz WHERE " +
         "quiz_id = ? ;";
+
+    private static final String SELECT_USER_ID_FROM_QUIZ_TABLE = "SELECT user_id FROM QUIZ WHERE user_id = ? ;"; 
 
     private static final String SELECT_QUIZ_BY_ID = "SELECT * FROM QUIZ WHERE id = ? ;" ;
 
@@ -80,7 +80,6 @@ public class QuizDAOimp implements QuizDAO {
                     quizId = generatedKeys.getInt(1);
                 } else {
                     throw new SQLException("Creating Answers failed, no ID obtained.");
-
                 }
             }
 
@@ -124,37 +123,44 @@ public class QuizDAOimp implements QuizDAO {
         try (Connection connection = getConnection()) {
             PreparedStatement pivotStatement = connection.prepareStatement(SELECT_QUIZ_ID_QUESTION_QUIZ);
             PreparedStatement quizStatement = connection.prepareStatement(SELECT_QUIZ_BY_ID);
-            pivotStatement.setInt(1, id);
-
+            quizStatement.setInt(1, id);
+            
             try (ResultSet resultSet = quizStatement.executeQuery()) {
                 while (resultSet.next()) {
-                    quiz = new Quiz();
                     int userId = resultSet.getInt("user_id");
-                    // List<Question> questionList = new ArrayList<Question>();
+                    pivotStatement.setInt(1, id);
+        
+                    try (ResultSet rs = pivotStatement.executeQuery()) {
+                        List<Question> easyQuestions = new ArrayList<Question>();
+                        List<Question> meduimQuestions = new ArrayList<Question>();
+                        List<Question> hardQuestions = new ArrayList<Question>();
+    
+    
+                        QuestionDAO questionDAO = new QuestionDAOimp();
+                        while (rs.next()) {
+                            int question_id = rs.getInt("question_id");
+                            Question question = questionDAO.findQuestion(question_id);
+                            // System.out.println(question);
+                            switch(question.getDifficulty()) {
+                                case "Easy": 
+                                    easyQuestions.add(question);
+                                    break;
+                                case "Medium": 
+                                    meduimQuestions.add(question);
+                                    break;
+                                case "Hard": 
+                                    hardQuestions.add(question);
+                                    break;
+                                default: 
+                                    break;
+                            }
+                        }
 
-                    // for (int i = 1; i <= count; i++) {
-                        // int questionId = resultSet.getInt("Q" + String.valueOf(i));
-                        // questionList.add(new QuestionDAOimp().findQuestion(questionId));
-                    // } 
+                        quiz = new Quiz (id, new CombinedQuestionResponse(easyQuestions, meduimQuestions, hardQuestions), userId);
+                    }
                 }
-            }
-            
-            quizStatement.setInt(1, id);
-
-
-            try (ResultSet rs = pivotStatement.executeQuery()) {
-                List<Question> questionList = new ArrayList<Question>();
-                QuestionDAO questionDAO = new QuestionDAOimp();
-                while (rs.next()) {
-                    int question_id = rs.getInt("question_id");
                     
-                }
-                
             }
-
-
-
-
         } 
         catch (SQLException e) {
             e.printStackTrace();
@@ -180,7 +186,7 @@ public class QuizDAOimp implements QuizDAO {
                         questionList.add(new QuestionDAOimp().findQuestion(questionId));
                     } 
 
-                    quizList.add(new Quiz(id, questionList, userId));
+                    // quizList.add(new Quiz(id, questionList, userId));
                 }
             }
         } 

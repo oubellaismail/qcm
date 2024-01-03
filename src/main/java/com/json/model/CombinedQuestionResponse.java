@@ -5,29 +5,17 @@ import java.util.List;
 import java.util.Objects;
 
 public class CombinedQuestionResponse {
-    int id;
     private List<Question> easyQuestions;
     private List<Question> mediumQuestions;
     private List<Question> hardQuestions;
 
-
-
     public CombinedQuestionResponse() {
     }
 
-    public CombinedQuestionResponse(int id, List<Question> easyQuestions, List<Question> mediumQuestions, List<Question> hardQuestions) {
-        this.id = id;
+    public CombinedQuestionResponse(List<Question> easyQuestions, List<Question> mediumQuestions, List<Question> hardQuestions) {
         this.easyQuestions = easyQuestions;
         this.mediumQuestions = mediumQuestions;
         this.hardQuestions = hardQuestions;
-    }
-
-    public int getId() {
-        return this.id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public List<Question> getEasyQuestions() {
@@ -54,11 +42,6 @@ public class CombinedQuestionResponse {
         this.hardQuestions = hardQuestions;
     }
 
-    public CombinedQuestionResponse id(int id) {
-        setId(id);
-        return this;
-    }
-
     public CombinedQuestionResponse easyQuestions(List<Question> easyQuestions) {
         setEasyQuestions(easyQuestions);
         return this;
@@ -82,23 +65,21 @@ public class CombinedQuestionResponse {
             return false;
         }
         CombinedQuestionResponse combinedQuestionResponse = (CombinedQuestionResponse) o;
-        return id == combinedQuestionResponse.id && Objects.equals(easyQuestions, combinedQuestionResponse.easyQuestions) && Objects.equals(mediumQuestions, combinedQuestionResponse.mediumQuestions) && Objects.equals(hardQuestions, combinedQuestionResponse.hardQuestions);
+        return Objects.equals(easyQuestions, combinedQuestionResponse.easyQuestions) && Objects.equals(mediumQuestions, combinedQuestionResponse.mediumQuestions) && Objects.equals(hardQuestions, combinedQuestionResponse.hardQuestions);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, easyQuestions, mediumQuestions, hardQuestions);
+        return Objects.hash(easyQuestions, mediumQuestions, hardQuestions);
     }
 
     @Override
     public String toString() {
         return "{" +
-            " id='" + getId() + "'" +
-            ", easyQuestions='" + getEasyQuestions() + "'" +
+            " easyQuestions='" + getEasyQuestions() + "'" +
             ", mediumQuestions='" + getMediumQuestions() + "'" +
             ", hardQuestions='" + getHardQuestions() + "'" +
             "}";
     }
-    
-    
+
 }
