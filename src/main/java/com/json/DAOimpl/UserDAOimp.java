@@ -6,9 +6,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.json.DAO.UserDAO;
-import com.json.model.User;
-import com.json.DAOimpl.QuizDAOimp;
+import com.json.DAO.*;
+import com.json.model.*;
+import com.json.DAOimpl.*;
 
 public class UserDAOimp implements UserDAO {
     public String jdbcUrl = "jdbc:mysql://localhost:3306/quiz-app";
@@ -28,6 +28,8 @@ public class UserDAOimp implements UserDAO {
     private static final String UPDATE_USER_SQL = "UPDATE USERS SET userNmae = ?, email = ?, password = ?, level =? WHERE id = ?;";
 
     private static final String DELETE_USER_SQL = "DELETE FROM USERS WHERE id = ? ;";
+
+    private static final String SELECT_QUIZ_ID_BY_USER_ID = "SELECT * FROM QUIZ WHERE user_id = ? ;";
 
     protected Connection getConnection() {
         Connection connection = null;
@@ -106,6 +108,16 @@ public class UserDAOimp implements UserDAO {
     public void deleteUser(int id) {
         try (Connection connection = getConnection();) {
             PreparedStatement userStatement = connection.prepareStatement(DELETE_USER_SQL);
+            PreparedStatement quizStatement = connection.prepareStatement(SELECT_QUIZ_ID_BY_USER_ID);
+
+            quizStatement.setInt(1, id);
+
+            try (ResultSet resultSet = quizStatement.executeQuery()) {
+                QuizDAO quizDAO = new QuizDAOimp();
+                while (resultSet.next()) {
+                    quizDAO.deleteQuiz(resultSet.getInt("id"));
+                }
+            }
 
             userStatement.setInt(1, id);
             userStatement.executeUpdate();

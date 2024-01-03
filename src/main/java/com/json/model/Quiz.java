@@ -1,19 +1,20 @@
 package com.json.model;
+import java.util.*;
 import java.util.Objects;
 public class Quiz {
     private int id;
-    private CombinedQuestionResponse questions;
+    private List<Question> questions;
     private int userId;
 
     public Quiz() {
     }
 
-    public Quiz(CombinedQuestionResponse questions, int userId) {
-        this.questions = questions;
+    public Quiz(int userId) {
         this.userId = userId;
+        this.questions = new ArrayList<Question>();
     }
     
-    public Quiz(int id, CombinedQuestionResponse questions, int userId) {
+    public Quiz(int id, List<Question> questions, int userId) {
         this.id = id;
         this.questions = questions;
         this.userId = userId;
@@ -27,11 +28,11 @@ public class Quiz {
         this.id = id;
     }
 
-    public CombinedQuestionResponse getQuestions() {
+    public List<Question> getQuestions() {
         return this.questions;
     }
 
-    public void setQuestions(CombinedQuestionResponse questions) {
+    public void setQuestions(List<Question> questions) {
         this.questions = questions;
     }
 
@@ -48,7 +49,7 @@ public class Quiz {
         return this;
     }
 
-    public Quiz questions(CombinedQuestionResponse questions) {
+    public Quiz questions(List<Question> questions) {
         setQuestions(questions);
         return this;
     }
@@ -83,6 +84,5 @@ public class Quiz {
             "}";
     }
 
-
-
+    
 }

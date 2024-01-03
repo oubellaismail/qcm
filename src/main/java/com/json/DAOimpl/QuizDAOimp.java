@@ -14,9 +14,6 @@ import com.json.DAOimpl.*;
 
 public class QuizDAOimp implements QuizDAO {
 
-    public int count = 1;
-
-
     public String jdbcUrl = "jdbc:mysql://localhost:3306/quiz-app";
     
     public String jdbcUser = "ismail";
@@ -37,13 +34,13 @@ public class QuizDAOimp implements QuizDAO {
     private static final String SELECT_QUIZ_ID_QUESTION_QUIZ = "SELECT question_id FROM question_quiz WHERE " +
         "quiz_id = ? ;";
 
-    private static final String SELECT_USER_ID_FROM_QUIZ_TABLE = "SELECT user_id FROM QUIZ WHERE user_id = ? ;"; 
-
     private static final String SELECT_QUIZ_BY_ID = "SELECT * FROM QUIZ WHERE id = ? ;" ;
 
-    private static final String SELECT_QUIZS_SQL = "SELECT * FROM QUIZ WHERE user_id = ? ;";
+    private static final String SELECT_QUIZ_BY_USER_ID = "SELECT * FROM QUIZ WHERE user_id = ?  ;"; 
 
     private static final String DELETE_QUIZ_SQL = "DELETE FROM QUIZ WHERE id = ? ;";
+
+    private static final String DELETE_FROM_QUESTION_QUIZ = "DELETE FROM question_quiz WHERE quiz_id = ? ;";
 
     protected Connection getConnection (){
         Connection connection = null;
@@ -68,49 +65,39 @@ public class QuizDAOimp implements QuizDAO {
         try (Connection connection = getConnection()) {
             PreparedStatement quizStatement = connection.prepareStatement(INSERT_QUIZ_SQL, 
                     PreparedStatement.RETURN_GENERATED_KEYS);
-            PreparedStatement pivotStatement = connection.prepareStatement(INSERT_QUESTION_QUIZ_TABLE);
+            // PreparedStatement pivotStatement = connection.prepareStatement(INSERT_QUESTION_QUIZ_TABLE);
 
             quizStatement.setInt(1, quiz.getUserId());
             quizStatement.executeUpdate();
 
-            int quizId;
+            // int quizId;
 
             try (ResultSet generatedKeys = quizStatement.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
-                    quizId = generatedKeys.getInt(1);
+                    quiz.setId(generatedKeys.getInt(1));
                 } else {
                     throw new SQLException("Creating Answers failed, no ID obtained.");
                 }
             }
+        } 
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
-            QuestionDAO questionDAO = new QuestionDAOimp();
-            CombinedQuestionResponse questions = quiz.getQuestions();
-            
-            for (int i=0; i < 3 ; i++) {
-                List<Question> questionsList = null;
-                switch (i) {
-                    case 0:
-                        questionsList = questions.getEasyQuestions();   
-                        break;  
-                    case 1:
-                        questionsList = questions.getMediumQuestions();   
-                        break;  
-                    case 2:
-                        questionsList = questions.getHardQuestions();   
-                        break;  
-                    default:
-                        break;
-                }
+    @Override
+    public void updateQuiz(Quiz quiz, int start) {
+        try (Connection connection = getConnection()) {
+            PreparedStatement pivotStatement = connection.prepareStatement(INSERT_QUESTION_QUIZ_TABLE);
+            List<Question> questionsSubset = quiz.getQuestions().subList(start, quiz.getQuestions().size());
+            int id = quiz.getId();
+            for (Question question : questionsSubset) {
+                new QuestionDAOimp().insertQuestion(question);
+                pivotStatement.setInt(1, question.getId());
+                pivotStatement.setInt(2, id);
 
-                for (Question question : questionsList) {
-                    int questionId = questionDAO.insertQuestion(question);
-                    pivotStatement.setInt(1, questionId);
-                    pivotStatement.setInt(2, quizId);
-
-                    pivotStatement.executeUpdate();
-                }
+                pivotStatement.executeUpdate();
             }
-
         } 
         catch (SQLException e) {
             e.printStackTrace();
@@ -130,33 +117,15 @@ public class QuizDAOimp implements QuizDAO {
                     int userId = resultSet.getInt("user_id");
                     pivotStatement.setInt(1, id);
         
-                    try (ResultSet rs = pivotStatement.executeQuery()) {
-                        List<Question> easyQuestions = new ArrayList<Question>();
-                        List<Question> meduimQuestions = new ArrayList<Question>();
-                        List<Question> hardQuestions = new ArrayList<Question>();
-    
-    
+                    try (ResultSet rs = pivotStatement.executeQuery()) {        
                         QuestionDAO questionDAO = new QuestionDAOimp();
+                        List <Question> questions = new ArrayList<Question>();
                         while (rs.next()) {
                             int question_id = rs.getInt("question_id");
-                            Question question = questionDAO.findQuestion(question_id);
-                            // System.out.println(question);
-                            switch(question.getDifficulty()) {
-                                case "Easy": 
-                                    easyQuestions.add(question);
-                                    break;
-                                case "Medium": 
-                                    meduimQuestions.add(question);
-                                    break;
-                                case "Hard": 
-                                    hardQuestions.add(question);
-                                    break;
-                                default: 
-                                    break;
-                            }
+                            questions.add(questionDAO.findQuestion(question_id));
                         }
 
-                        quiz = new Quiz (id, new CombinedQuestionResponse(easyQuestions, meduimQuestions, hardQuestions), userId);
+                        quiz = new Quiz (id, questions, userId);
                     }
                 }
                     
@@ -173,20 +142,12 @@ public class QuizDAOimp implements QuizDAO {
     public List<Quiz> findAll(int userId) {
         List<Quiz> quizList = new ArrayList<Quiz>();
         try (Connection connection = getConnection()) {
-            PreparedStatement quizStatement = connection.prepareStatement(SELECT_QUIZS_SQL);
-
+            PreparedStatement quizStatement = connection.prepareStatement(SELECT_QUIZ_BY_USER_ID);
             quizStatement.setInt(1, userId);
 
             try (ResultSet resultSet = quizStatement.executeQuery()) {
                 while (resultSet.next()) {
-                    int id = resultSet.getInt("id");
-                    List<Question> questionList = new ArrayList<Question>();
-                    for (int i = 1; i <= count; i++) {
-                        int questionId = resultSet.getInt("Q" + String.valueOf(id));
-                        questionList.add(new QuestionDAOimp().findQuestion(questionId));
-                    } 
-
-                    // quizList.add(new Quiz(id, questionList, userId));
+                    quizList.add(findQuiz(resultSet.getInt("id")));
                 }
             }
         } 
@@ -203,19 +164,13 @@ public class QuizDAOimp implements QuizDAO {
     public void deleteQuiz(int id){
         try (Connection connection = getConnection();) {
             PreparedStatement quizStatement = connection.prepareStatement(DELETE_QUIZ_SQL);
+            PreparedStatement pivotStatement = connection.prepareStatement(DELETE_FROM_QUESTION_QUIZ);
 
-            Quiz quiz = findQuiz(id);
+            pivotStatement.setInt(1, id);
+            pivotStatement.executeUpdate();
 
             quizStatement.setInt(1, id);
             quizStatement.executeUpdate();
-
-            QuestionDAO questionDAO = new QuestionDAOimp();
-
-            for (int index = 0; index < count; index++) {
-                questionDAO.deleteQuestion(quiz.getQuestions().get(index).getId());
-            }
-
-
         }
 
         catch (SQLException e) {
