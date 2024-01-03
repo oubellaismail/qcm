@@ -14,6 +14,9 @@ public class CorrectAnswersDAOimp implements CorrectAnswersDAO {
     public String jdbcUser = "ismail";
     public String jdbcPassword = "just";
 
+    // public String jdbcUser = "root";
+    // public String jdbcPassword = "";
+
     private static final String INSERT_CORRECT_ANSWERS_SQL = "INSERT INTO CORRECT_ANSWERS " +
             "(answer_a_correct, answer_b_correct, answer_c_correct, answer_d_correct, answer_e_correct, answer_f_correct) VALUES " +
             "(?, ?, ?, ?, ?, ?) ;";

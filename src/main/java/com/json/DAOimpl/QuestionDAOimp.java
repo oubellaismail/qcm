@@ -17,6 +17,9 @@ public class QuestionDAOimp implements QuestionDAO{
     public String jdbcUser = "ismail";
     public String jdbcPassword = "just";
 
+    // public String jdbcUser = "root";
+    // public String jdbcPassword = "";
+
     //! question id will not be auto increment !
 
     private static final String INSERT_QUESTION_SQL = "INSERT INTO QUESTION " + 

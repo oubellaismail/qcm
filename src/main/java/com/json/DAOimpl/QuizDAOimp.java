@@ -15,12 +15,23 @@ import com.json.DAOimpl.*;
 public class QuizDAOimp implements QuizDAO {
 
     public String jdbcUrl = "jdbc:mysql://localhost:3306/quiz-app";
+    
     public String jdbcUser = "ismail";
     public String jdbcPassword = "just";
 
-    private static final String INSERT_QUIZ_SQL = "INSERT INTO Quiz " +
-        "(Q1, Q2, Q3, Q4, Q5) VALUES " +
-        "(?, ?, ?, ?, ?) ;";
+    // public String jdbcUser = "root";
+    // public String jdbcPassword = "";
+    
+    private static final String INSERT_QUIZ_SQL = "INSERT INTO QUIZ " +
+        "(user_id) VALUES " +
+        "(?) ;";
+
+    private static final String INSERT_QUESTION_QUIZ_TABLE = "INSERT INTO question_quiz " +
+        "(question_id, quiz_id) VALUES " +
+        "(?, ?) ;" ;
+
+    private static final String SELECT_QUIZ_ID_QUESTION_QUIZ = "SELECT question_id FROM question_quiz WHERE " +
+        "quiz_id = ? ;";
 
     private static final String SELECT_QUIZ_BY_ID = "SELECT * FROM QUIZ WHERE id = ? ;" ;
 
