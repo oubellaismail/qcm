@@ -40,18 +40,18 @@ public class QuizController {
  private VBox checkboxContainer;
 
     private int cont = 1;
-    private int level = 3;
+    private final int level = 3;
     private boolean isFirstClick = true;
     private int diffCont = 0;
 
-    private Map<String, Boolean> correctAnswers = new HashMap<>();
+    private final Map<String, Boolean> correctAnswers = new HashMap<>();
 
     @FXML
     private void initialize() {
         loadQuestion();
     }
     @FXML
-    public void next(ActionEvent e) {
+    public void next() {
         if (cont < level * 3) {
             if (isFirstClick) {
                 handleCheckboxSelection();
@@ -82,30 +82,30 @@ public class QuizController {
             List<Question> questions = gson.fromJson(json, questionListType);
 
             if (!questions.isEmpty()) {
-                String questionText = questions.get(0).getQuestion();
+                String questionText = questions.getFirst().getQuestion();
                 this.question.setText(questionText);
                 clearCheckboxes();
 
                 // Create checkboxes for true answers
-                createCheckboxes(questions.get(0).getAnswers().getAnswer_a(), "Answer A");
-                createCheckboxes(questions.get(0).getAnswers().getAnswer_b(), "Answer B");
-                createCheckboxes(questions.get(0).getAnswers().getAnswer_c(), "Answer C");
-                createCheckboxes(questions.get(0).getAnswers().getAnswer_d(), "Answer D");
-                createCheckboxes(questions.get(0).getAnswers().getAnswer_e(), "Answer E");
-                createCheckboxes(questions.get(0).getAnswers().getAnswer_f(), "Answer F");
+                createCheckboxes(questions.getFirst().getAnswers().getAnswer_a(), "Answer A");
+                createCheckboxes(questions.getFirst().getAnswers().getAnswer_b(), "Answer B");
+                createCheckboxes(questions.getFirst().getAnswers().getAnswer_c(), "Answer C");
+                createCheckboxes(questions.getFirst().getAnswers().getAnswer_d(), "Answer D");
+                createCheckboxes(questions.getFirst().getAnswers().getAnswer_e(), "Answer E");
+                createCheckboxes(questions.getFirst().getAnswers().getAnswer_f(), "Answer F");
 
 
                 correctAnswers.clear();
-                correctAnswers.put("Answer A", questions.get(0).getCorrect_answers().getAnswer_a_correct());
-                correctAnswers.put("Answer B", questions.get(0).getCorrect_answers().getAnswer_b_correct());
-                correctAnswers.put("Answer C", questions.get(0).getCorrect_answers().getAnswer_c_correct());
-                correctAnswers.put("Answer D", questions.get(0).getCorrect_answers().getAnswer_d_correct());
-                correctAnswers.put("Answer E", questions.get(0).getCorrect_answers().getAnswer_e_correct());
-                correctAnswers.put("Answer F", questions.get(0).getCorrect_answers().getAnswer_f_correct());
+                correctAnswers.put("Answer A", questions.getFirst().getCorrect_answers().getAnswer_a_correct());
+                correctAnswers.put("Answer B", questions.getFirst().getCorrect_answers().getAnswer_b_correct());
+                correctAnswers.put("Answer C", questions.getFirst().getCorrect_answers().getAnswer_c_correct());
+                correctAnswers.put("Answer D", questions.getFirst().getCorrect_answers().getAnswer_d_correct());
+                correctAnswers.put("Answer E", questions.getFirst().getCorrect_answers().getAnswer_e_correct());
+                correctAnswers.put("Answer F", questions.getFirst().getCorrect_answers().getAnswer_f_correct());
 
-                difficulties.setText("Difficulty: "+ questions.get(0).getDifficulty());
+                difficulties.setText("Difficulty: "+ questions.getFirst().getDifficulty());
                 levels.setText("Level: "+ level);
-                categories.setText("Category: "+ questions.get(0).getCategory());
+                categories.setText("Category: "+ questions.getFirst().getCategory());
                 if (diffCont < 3) diffCont++;
 
             } else {
@@ -128,8 +128,7 @@ public class QuizController {
     private void handleCheckboxSelection() {
         // Your existing logic for handling checkbox selection
         for (Node node : checkboxContainer.getChildren()) {
-            if (node instanceof CheckBox) {
-                CheckBox checkbox = (CheckBox) node;
+            if (node instanceof CheckBox checkbox) {
                 String checkboxId = checkbox.getId();
 
                 if (correctAnswers.containsKey(checkboxId) && correctAnswers.get(checkboxId).equals(true)) {
@@ -166,7 +165,7 @@ public class QuizController {
         next.setVisible(false);
     }
     @FXML
-    private  void restart(ActionEvent e){
+    private  void restart(){
         cont = 1;
         loadQuestion();
         question.setVisible(true);
