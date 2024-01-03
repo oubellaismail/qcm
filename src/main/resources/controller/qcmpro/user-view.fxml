@@ -7,12 +7,11 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.qcmpro.UserView">
+<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.qcmpro.UserController">
    <children>
       <Pane prefHeight="600.0" prefWidth="241.0" styleClass="login_container" stylesheets="@../../Styles/login.css">
          <children>
-            <Text fill="WHITE" layoutX="9.0" layoutY="192.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="223.20006725788124">
+            <Text fx:id="manage" fill="WHITE" layoutX="9.0" layoutY="192.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="223.20006725788124">
                <font>
                   <Font name="Arial Bold" size="36.0" />
                </font>
@@ -27,7 +26,7 @@
                   <Font name="Arial Bold" size="48.0" />
                </font>
             </Text>
-            <Text fx:id="difficulties" fill="#150689" layoutX="113.0" layoutY="120.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="324.80001220703116">
+            <Text fx:id="level" fill="#150689" layoutX="113.0" layoutY="162.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="324.80001220703116">
                <font>
                   <Font name="System Bold" size="32.0" />
                </font>
@@ -37,6 +36,11 @@
                   <Font size="24.0" />
                </font>
             </Button>
+            <Text fx:id="email" fill="#150689" layoutX="63.0" layoutY="105.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="425.5999999999999">
+               <font>
+                  <Font name="System Bold" size="28.0" />
+               </font>
+            </Text>
          </children>
       </Pane>
    </children>

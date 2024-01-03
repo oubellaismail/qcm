@@ -85,18 +85,16 @@ public class QuizDAOimp implements QuizDAO {
     }
 
     @Override
-    public void updateQuiz(Quiz quiz, int start) {
+    public void updateQuiz(Quiz quiz) {
         try (Connection connection = getConnection()) {
             PreparedStatement pivotStatement = connection.prepareStatement(INSERT_QUESTION_QUIZ_TABLE);
-            List<Question> questionsSubset = quiz.getQuestions().subList(start, quiz.getQuestions().size());
             int id = quiz.getId();
-            for (Question question : questionsSubset) {
+            Question question = quiz.getQuestions().getLast();
                 new QuestionDAOimp().insertQuestion(question);
                 pivotStatement.setInt(1, question.getId());
                 pivotStatement.setInt(2, id);
-
                 pivotStatement.executeUpdate();
-            }
+
         } 
         catch (SQLException e) {
             e.printStackTrace();

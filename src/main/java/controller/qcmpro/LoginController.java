@@ -48,7 +48,7 @@ public class LoginController {
              user =  userDAO.findUser(new User(email, password));
         }
         if (user != null){
-            redirectToQuizPage(user);
+            redirectToHomePage(user);
     }
     }
 
@@ -71,12 +71,12 @@ public class LoginController {
         }
     }
 
-    private void redirectToQuizPage(User user) {
+    private void redirectToHomePage(User user) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(QuizApp.class.getResource("quiz.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(QuizApp.class.getResource("home-view.fxml"));
             Parent root = fxmlLoader.load();
-            QuizController quizController = fxmlLoader.getController();
-            quizController.initData(user);
+            HomeController homeController = fxmlLoader.getController();
+            homeController.initData(user);
             Scene scene = new Scene(root);
             Stage stage = (Stage) loginButton.getScene().getWindow();
             stage.setTitle("Quiz Application");

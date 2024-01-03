@@ -57,7 +57,7 @@ public class Main {
                     }.getType();
                     List<Question> questionzes = gson.fromJson(json, questionListType);
                     quiz.getQuestions().addAll(questionzes);
-                    quizDAO.updateQuiz(quiz, count++ * level);
+                    quizDAO.updateQuiz(quiz);
                 }
             }
 

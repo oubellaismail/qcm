@@ -14,7 +14,7 @@ public class LoginApplication extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("login-view.fxml"));
         Parent root = fxmlLoader.load();
         LoginController loginController = fxmlLoader.getController();
-        Scene scene = new Scene(root, 640, 480);
+        Scene scene = new Scene(root);
         stage.setTitle("Login Form");
         stage.setScene(scene);
         stage.show();
